@@ -1,22 +1,22 @@
-function Platform (x,y) {
-    this.pos = {
-      x: x,
-      y: y
-    }
-    this.w = 100;
-    this.h = 10;
+class Platform {
+  x; y; w; h;
+
+  constructor (x,y,w,h) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
   
-    this.show = function() {
-      stroke(240);
-      fill(240);
-      rect(this.pos.x, this.pos.y, this.w, this.h);
-    }
-  
-    this.collide = function(p) { // p is an object with x and y value
-      if (p.x > this.pos.x &&
-        p.y > this.pos.y &&
-        p.x < this.pos.x+this.w &&
-        p.y < this.pos.y+this.h) {
+  draw() {
+    noStroke();
+    fill(49,49,49);
+    rect(this.x, this.y, this.w, this.h);
+  }
+    
+  collide(p) {
+      if (player.x > this.x && p.y > this.y &&
+        p.x < this.x+this.w && p.y < this.y+this.h) {
           return true;
         }
         return false;
