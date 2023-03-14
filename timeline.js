@@ -20,7 +20,7 @@ class Timeline {
         strokeWeight(2);
 
         for (let i = 0; i < this.sequence.length; i++)  {
-            if (current == i) {
+            if (current-1 == i) {
                 fill(this.color);
             }
             else if (this.sequence[i] == 1) {
@@ -30,8 +30,8 @@ class Timeline {
                 noFill();
             }
 
-            if (i < 5) rect(windowWidth/2-this.w*abs(i-4),-windowHeight/2+switchDist,this.w,this.h);
-            else rect(windowWidth/2+this.w*(i-4),-windowHeight/2+switchDist,this.w,this.h);
+            if (i < 5) rect(windowWidth/2-this.w*abs(i-4),windowHeight/2+switchDist,this.w,this.h);
+            else rect(windowWidth/2+this.w*(i-4),windowHeight/2+switchDist,this.w,this.h);
         }
         /*for (let i = 0; i < this.sequence.length; i++) {
             rect();

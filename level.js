@@ -85,6 +85,16 @@ class Level {
         //avanco timelines
         if (this.instant - this.interClock >= this.loopLength / 8) {
             this.interClock = this.instant;
+
+            console.log(this.activeSlot);
+
+            for (let t of this.timelines) {
+                if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
+                    for (let bb of this.blueBlocks) bb.active = true;
+                }
+                else  for (let bb of this.blueBlocks) bb.active = false;
+            }
+
             if (this.activeSlot < 8 - 1) this.activeSlot += 1;
             else this.activeSlot = 0;
         }

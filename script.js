@@ -4,7 +4,8 @@ let levels = [];
 let currentLevel = 0; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
-let switchDist = 0; //valor a subtrair
+let switchDist = 0; //valor total a subtrair
+let switchInc = 75; //valor incrementados
 
 function setup() {
   frameRate(60);
@@ -18,7 +19,7 @@ function setup() {
   player = new Player(15,30);
   menu = new Menu();
 
-  levels.push(new Level(1,2000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(1,10000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 }
 
 function draw() {
@@ -26,7 +27,7 @@ function draw() {
   if (currentLevel != -1) levels[currentLevel].draw();
   else menu.draw();
  
-  //switchView()
+  switchView();
   }
 
 
@@ -40,12 +41,9 @@ function keyPressed() {
     player.move = player.walk;
   }
   if (key==' ' && !player.jumping) {
-    //vel -= 15;
     player.vel -= 14;
   }
-  if (key='e') {
-    switchCheck = true;
-  }
+  if (key=='e') switchCheck = true;
 }
 
 function keyReleased() {
@@ -55,14 +53,12 @@ function keyReleased() {
   if (key=='d') {
     player.move = 0;
   }
-  if (key='e') {
-    switchCheck = false;
-  }
+  if (key=='e') switchCheck = false;
 }
 
 function switchView() {
   if (switchCheck && switchDist<windowHeight) switchDist+=75;
-  else if(!switchCheck && switchDist>0) switchDist-=75;
+  else if (!switchCheck && switchDist>0) switchDist-=75;
   
 }
 
