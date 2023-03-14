@@ -1,8 +1,10 @@
 let frameSize; //tamanho moldura
-let tabPressed = false;
 
 let levels = [];
-let currentLevel = -1; //nivel atual, -1 se for o menu
+let currentLevel = 0; //nivel atual, -1 se for o menu
+
+let switchCheck = false; //verifica se as vistas estao trocadas
+let switchDist = 0; //valor a subtrair
 
 function setup() {
   frameRate(60);
@@ -16,17 +18,19 @@ function setup() {
   player = new Player(15,30);
   menu = new Menu();
 
-  levels.push(new Level(1,120,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(1,2000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 }
 
 function draw() {
   background(217,217,217);
   if (currentLevel != -1) levels[currentLevel].draw();
   else menu.draw();
-  //drawFrame();
+ 
+  //switchView()
   }
 
-//CONTROLOS
+
+//CONTROLOS ---------- // ---------- // ----------
 
 function keyPressed() {
   if (key=='a' && key!='d') {
@@ -39,8 +43,8 @@ function keyPressed() {
     //vel -= 15;
     player.vel -= 14;
   }
-  if (key="e") {
-    tabPressed = true;
+  if (key='e') {
+    switchCheck = true;
   }
 }
 
@@ -51,12 +55,16 @@ function keyReleased() {
   if (key=='d') {
     player.move = 0;
   }
-  if (key="e") {
-    tabPressed = false;
+  if (key='e') {
+    switchCheck = false;
   }
 }
 
-
+function switchView() {
+  if (switchCheck && switchDist<windowHeight) switchDist+=75;
+  else if(!switchCheck && switchDist>0) switchDist-=75;
+  
+}
 
 /*function drawFrame() {
     fill(49,49,49);

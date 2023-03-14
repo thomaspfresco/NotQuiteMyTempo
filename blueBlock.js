@@ -25,7 +25,7 @@ class BlueBlock {
         strokeWeight(2); 
         noFill();
     }
-    rect(this.x, this.y, this.w, this.h);
+    rect(this.x, this.y+switchDist, this.w, this.h);
   }
     
   collide(p) {

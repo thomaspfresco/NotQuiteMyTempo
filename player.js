@@ -20,7 +20,7 @@ class Player {
     draw() {
         fill(255, 0, 0);
         noStroke();
-        rect(this.x, this.y-this.h, this.w, this.h);
+        rect(this.x, this.y-this.h+switchDist, this.w, this.h);
         
         // player velocity
         if (this.jumping) this.vel += 0.7;

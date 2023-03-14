@@ -13,6 +13,6 @@ class Win {
     draw() {
         noStroke();
         fill(0,0,0);
-        circle(this.x,this.y,this.size,this.size);
+        circle(this.x,this.y+switchDist,this.size,this.size);
     }
 }

@@ -5,26 +5,31 @@ class Level {
     blueBlocks = [];
 
     id; //identificacao
-    tempo; //BMPs
+    loopLength; //tempo do loop em milissegundos
+    instant; //instante atual
+    interClock; //tempo entre slots
     nChuncks; //numero de ecra que ocupa o nivel
     completed; //indica se o nivel foi completo
     unlocked; //indica se e possivel jogar o nivel
-    switchDist; //distancia a percorre na troca de vistas
-
+    activeSlot; //slot atual em todas as timelines
     initX;initY; // posicao inicial do jogador no nivel
     winX;winY; //posicao da meta do nivel
 
     win; //objeto win
 
-    constructor(id,tempo,nTimelines,nChuncks,initX,initY,winX,winY) {
+    constructor(id,loopLength,nTimelines,nChuncks,initX,initY,winX,winY) {
         this.id = id;
         this.nTimelines = nTimelines;
-        this.tempo = tempo;
+        this.loopLength = loopLength;
         this.nChuncks = nChuncks;
         this.initX = initX;
         this.initY = initY;
         this.winX = winX;
         this.winY = winY;
+        
+        this.instant = 0;
+        this.interClock = 0;
+        this.activeSlot = 0;
 
         this.completed = false;
 
@@ -39,6 +44,8 @@ class Level {
                 this.platforms.push(new Platform(frameSize*2,windowHeight/2,100,10));
                 this.platforms.push(new Platform(frameSize*3,windowHeight/2,100,10));
                 this.platforms.push(new Platform(frameSize*4,windowHeight/2+50,100,10));
+
+                this.timelines.push(new Timeline("blue",[1,0,0,0,1,0,0,0]));
 
                 this.blueBlocks.push(new BlueBlock(frameSize*4,windowHeight/2,50,50));
 
@@ -59,6 +66,8 @@ class Level {
     }
 
     draw() {
+        this.instant = millis();
+        
         player.jumping = true;
 
         //verificar colisoes e desenhar plataformas fixas
@@ -68,6 +77,16 @@ class Level {
             player.jumping = false;
             player.y = p.y;
           }
+        }
+
+        //desenhar timelines
+        for (let t of this.timelines) t.draw(this.activeSlot);
+
+        //avanco timelines
+        if (this.instant - this.interClock >= this.loopLength / 8) {
+            this.interClock = this.instant;
+            if (this.activeSlot < 8 - 1) this.activeSlot += 1;
+            else this.activeSlot = 0;
         }
 
         //desenhar blocos azuis
@@ -93,9 +112,5 @@ class Level {
 
     addPlatform(x,y,w,h) {
         this.platforms.push(new Platform(x,y,w,h));
-    }
-
-    switchView() {
-
     }
 }
