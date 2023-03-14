@@ -1,31 +1,30 @@
 let frameSize; //tamanho moldura
 let tabPressed = false;
 
+let levels = [];
+let currentLevel = -1; //nivel atual, -1 se for o menu
+
 function setup() {
   frameRate(60);
   createCanvas(windowWidth, windowHeight);
 
+  light=loadFont('Fonts/Gilroy-Light.otf');
+  bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
+
   frameSize = windowWidth/8;
 
-  player = new Player(frameSize+42,frameSize,15,30);
+  player = new Player(15,30);
+  menu = new Menu();
 
-  level1 = new Level(1,120,1,1);
+  levels.push(new Level(1,120,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 }
 
 function draw() {
   background(217,217,217);
-  level1.draw();
-  drawFrame();
+  if (currentLevel != -1) levels[currentLevel].draw();
+  else menu.draw();
+  //drawFrame();
   }
-
-function drawFrame() {
-    fill(49,49,49);
-    noStroke();
-    rect(0,0,frameSize,windowHeight);
-    rect(0,0,windowWidth,frameSize);
-    rect(windowWidth-frameSize,0,frameSize,windowHeight);
-    rect(0,windowHeight-frameSize,windowWidth,frameSize);
-}
 
 //CONTROLOS
 
@@ -56,3 +55,14 @@ function keyReleased() {
     tabPressed = false;
   }
 }
+
+
+
+/*function drawFrame() {
+    fill(49,49,49);
+    noStroke();
+    rect(0,0,frameSize,windowHeight);
+    rect(0,0,windowWidth,frameSize);
+    rect(windowWidth-frameSize,0,frameSize,windowHeight);
+    rect(0,windowHeight-frameSize,windowWidth,frameSize);
+}*/

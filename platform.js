@@ -1,11 +1,15 @@
 class Platform {
   x; y; w; h;
 
-  constructor (x,y,w,h) {
+  margin; //margem de tolerância
+
+  constructor(x,y,w,h) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    
+    this.margin = 5;
   }
   
   draw() {
@@ -15,8 +19,8 @@ class Platform {
   }
     
   collide(p) {
-      if (player.x > this.x && p.y > this.y &&
-        p.x < this.x+this.w && p.y < this.y+this.h) {
+      if (p.x > this.x+this.margin && p.y > this.y &&
+        p.x < this.x+this.w+this.margin && p.y < this.y+this.h) {
           return true;
         }
         return false;
