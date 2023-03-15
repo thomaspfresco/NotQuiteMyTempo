@@ -1,10 +1,13 @@
 class Menu {
     x; y;
     blockSize;
+    n; //numero de niveis
+
     constructor() {
-        this.x = windowWidth/2-75;
-        this.y =  windowHeight/2-75;
-        this.blockSize = 150;
+        this.x = windowWidth/2-windowHeight/4;
+        this.y = windowHeight/2-windowHeight/4;
+        this.blockSize = windowHeight/2;
+        this.n = levels.length;
     }
 
     draw() {

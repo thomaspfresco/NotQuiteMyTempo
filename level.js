@@ -111,9 +111,11 @@ class Level {
         //desenhar coletaveis
         for (let c of this.collectables) c.draw();
 
+        //jogador cai
         if (player.y > windowHeight+frameSize) {
             player.x = this.initX;
             player.y = this.initY;
+            for (let c of this.collectables) c.reset();
         }
 
         this.win.draw();

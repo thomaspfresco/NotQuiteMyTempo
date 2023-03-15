@@ -20,9 +20,11 @@ class Timeline {
         strokeWeight(2);
 
         for (let i = 0; i < this.sequence.length; i++)  {
-            if (current-1 == i) {
+         
+            if (current == i) {
                 fill(this.color);
             }
+            //bloqueados
             else if (this.sequence[i] == 1) {
                 fill(this.color);
             }
@@ -30,12 +32,11 @@ class Timeline {
                 noFill();
             }
 
-            if (i < 5) rect(windowWidth/2-this.w*abs(i-4),windowHeight/2+switchDist,this.w,this.h);
-            else rect(windowWidth/2+this.w*(i-4),windowHeight/2+switchDist,this.w,this.h);
+            var x = windowWidth/2+this.w*(i-4);
+            var y = windowHeight/2;
+
+            rect(x, y-100, this.w, this.h);
         }
-        /*for (let i = 0; i < this.sequence.length; i++) {
-            rect();
-            if (i == current);
-        }*/
+        
     }
 }
