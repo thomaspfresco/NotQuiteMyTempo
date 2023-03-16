@@ -4,6 +4,8 @@ class Level {
     platforms = [];
     blueBlocks = [];
 
+    songName;
+
     id; //identificacao
     loopLength; //tempo do loop em milissegundos
     instant; //instante atual
@@ -20,8 +22,9 @@ class Level {
     menuX; //pos x do nivel no menu
     sizeMenu; //nivel em destaque no menu
 
-    constructor(id,loopLength,nTimelines,nChuncks,initX,initY,winX,winY) {
+    constructor(id,songName,loopLength,nTimelines,nChuncks,initX,initY,winX,winY) {
         this.id = id;
+        this.songName = songName;
         this.nTimelines = nTimelines;
         this.loopLength = loopLength;
         this.nChuncks = nChuncks;
@@ -41,8 +44,9 @@ class Level {
         player.y = this.initY;
 
         switch(id) {
-            case 1:
+            case 0:
                 this.unlocked = true;
+
                 this.platforms.push(new Platform(frameSize,windowHeight/2,100,10));
                 this.platforms.push(new Platform(frameSize*2,windowHeight/2,100,10));
                 this.platforms.push(new Platform(frameSize*3,windowHeight/2,100,10));
@@ -52,7 +56,7 @@ class Level {
 
                 this.blueBlocks.push(new BlueBlock(frameSize*4,windowHeight/2,50,50));
 
-                this.collectables.push(new Collectable(frameSize*2+50,windowHeight/2-25));
+                this.collectables.push(new Collectable(frameSize*2+50,windowHeight/2));
                 break;
             default:
                 this.unlocked = false;
@@ -112,17 +116,28 @@ class Level {
         for (let c of this.collectables) c.draw();
 
         //jogador cai
-        if (player.y > windowHeight+frameSize) {
-            player.x = this.initX;
-            player.y = this.initY;
-            for (let c of this.collectables) c.reset();
-        }
+        if (player.y > windowHeight+frameSize) this.reset();
 
         this.win.draw();
         player.draw();
+
+        //nivel ganho
+        if (this.win.winner) {
+            this.completed = true;
+            currentLevel = -2;
+            player.vel = 0;
+            player.move = 0;
+        }
     }
 
     addPlatform(x,y,w,h) {
         this.platforms.push(new Platform(x,y,w,h));
     }
+
+    reset() {
+        player.x = this.initX;
+        player.y = this.initY;
+        for (let c of this.collectables) c.reset();
+    }
 }
+
