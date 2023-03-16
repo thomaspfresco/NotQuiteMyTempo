@@ -13,13 +13,17 @@ function setup() {
 
   light=loadFont('Fonts/Gilroy-Light.otf');
   bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
+  textFont(bold);
 
   frameSize = windowWidth/8;
 
   player = new Player(15,30);
-  menu = new Menu();
 
-  levels.push(new Level(1,4000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(0,6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(1,6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(2,6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+
+  menu = new Menu();
 }
 
 function draw() {
@@ -35,26 +39,37 @@ function draw() {
 //CONTROLOS ---------- // ---------- // ----------
 
 function keyPressed() {
-  if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
-    player.move = -player.walk;
+  if (currentLevel == -1) {
+    if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") menu.downPosition();
+    if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") menu.upPosition();
   }
-  if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
-    player.move = player.walk;
+  else {
+    if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
+      player.move = -player.walk;
+    }
+    if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
+      player.move = player.walk;
+    }
+    if (key==' ' && !player.jumping) {
+      player.vel -= 14;
+    }
+    if (key=='e') switchCheck = true;
   }
-  if (key==' ' && !player.jumping) {
-    player.vel -= 14;
-  }
-  if (key=='e') switchCheck = true;
 }
 
 function keyReleased() {
-  if (key=='a' || key=="ArrowLeft") {
-    player.move = 0;
+  if (currentLevel == -1) {
+
   }
-  if (key=='d' || key=="ArrowRight") {
-    player.move = 0;
+  else {
+    if (key=='a' || key=="ArrowLeft") {
+      player.move = 0;
+    }
+    if (key=='d' || key=="ArrowRight") {
+      player.move = 0;
+    }
+    if (key=='e') switchCheck = false;
   }
-  if (key=='e') switchCheck = false;
 }
 
 function switchView() {

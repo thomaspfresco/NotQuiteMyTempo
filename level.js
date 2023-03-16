@@ -17,6 +17,9 @@ class Level {
 
     win; //objeto win
 
+    menuX; //pos x do nivel no menu
+    sizeMenu; //nivel em destaque no menu
+
     constructor(id,loopLength,nTimelines,nChuncks,initX,initY,winX,winY) {
         this.id = id;
         this.nTimelines = nTimelines;
@@ -80,24 +83,21 @@ class Level {
         }
 
         //desenhar timelines
-        for (let t of this.timelines) t.draw(this.activeSlot);
+        for (let t of this.timelines) {
+            t.draw(this.activeSlot);
+            if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
+                for (let bb of this.blueBlocks) bb.active = true;
+            }
+            else for (let bb of this.blueBlocks) bb.active = false;
+        }
 
         //avanco timelines
         if (this.instant - this.interClock >= this.loopLength / 8) {
             this.interClock = this.instant;
-
-            console.log(this.activeSlot);
-
-            for (let t of this.timelines) {
-                if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
-                    for (let bb of this.blueBlocks) bb.active = true;
-                }
-                else  for (let bb of this.blueBlocks) bb.active = false;
-            }
-
             if (this.activeSlot < 8 - 1) this.activeSlot += 1;
             else this.activeSlot = 0;
         }
+
 
         //desenhar blocos azuis
         for (let bb of this.blueBlocks) {

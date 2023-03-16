@@ -35,7 +35,7 @@ class Timeline {
             var x = windowWidth/2+this.w*(i-4);
             var y = windowHeight/2;
 
-            rect(x, y-100, this.w, this.h);
+            rect(x, -y+switchDist, this.w, this.h);
         }
         
     }
