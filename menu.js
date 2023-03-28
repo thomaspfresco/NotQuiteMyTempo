@@ -27,7 +27,7 @@ class Menu {
     }
 
     draw() {
-        console.log(this.selected);
+        //console.log(this.selected);
         //update nivel em destaque
         if (currentLevel == -1 || currentLevel == -2) {
 
@@ -63,6 +63,7 @@ class Menu {
                 mouseIsPressed = false;
                 currentLevel = this.selected;
                 levels[currentLevel].reset();
+                switchBlack = true;
             }
 
             //movimentar com o rato

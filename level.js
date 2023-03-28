@@ -47,28 +47,20 @@ class Level {
             case 0:
                 this.unlocked = true;
 
-                this.platforms.push(new Platform(frameSize,windowHeight/2,100,10));
-                this.platforms.push(new Platform(frameSize*2,windowHeight/2,100,10));
-                this.platforms.push(new Platform(frameSize*3,windowHeight/2,100,10));
-                this.platforms.push(new Platform(frameSize*4,windowHeight/2+50,100,10));
+                this.platforms.push(new Platform(frameSize,windowHeight/2,100,20));
+                this.platforms.push(new Platform(frameSize*2,windowHeight/2,100,20));
+                this.platforms.push(new Platform(frameSize*3,windowHeight/2,100,20));
 
                 this.timelines.push(new Timeline("blue",[1,0,0,0,1,0,0,0]));
 
-                this.blueBlocks.push(new BlueBlock(frameSize*4,windowHeight/2,50,50));
+                this.blueBlocks.push(new BlueBlock(frameSize*4,windowHeight/2,100,20));
 
-                this.collectables.push(new Collectable(frameSize*2+50,windowHeight/2));
+                this.collectables.push(new Collectable(frameSize*2+50,windowHeight/2-25));
                 break;
             default:
                 this.unlocked = false;
                 break;
         }
-        //this.timelines = Array.from(new Array(8), () => new Array(nTimelines));
-    
-    /*for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < nTimelines; j++) {
-            timeline[i][j] = [-1,-1];
-        }
-    }*/
 
     }
 
@@ -98,6 +90,7 @@ class Level {
         //avanco timelines
         if (this.instant - this.interClock >= this.loopLength / 8) {
             this.interClock = this.instant;
+            click.play();
             if (this.activeSlot < 8 - 1) this.activeSlot += 1;
             else this.activeSlot = 0;
         }

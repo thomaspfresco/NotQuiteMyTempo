@@ -7,6 +7,21 @@ let switchCheck = false; //verifica se as vistas estao trocadas
 let switchDist = 0; //valor total a subtrair
 let switchInc = 75; //valor incrementados
 
+let switchBlack = false;
+let auxBlack = false;
+let blackOpac = 0;
+let timerBlack = 0;
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+function preload() {
+  menuMusic = loadSound("Sounds/DJ test.mp3");
+  click = loadSound("Sounds/click.mp3");
+  note1 = loadSound("Sounds/note1.mp3");
+} 
+
 function setup() {
   frameRate(60);
   createCanvas(windowWidth, windowHeight);
@@ -19,25 +34,44 @@ function setup() {
 
   player = new Player(15,30);
 
-  levels.push(new Level(0,"Keep Walking",6000,1,1,frameSize+42,frameSize*2,windowWidth/2-frameSize*2,frameSize*2));
-  levels.push(new Level(1,"Keep",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
-  levels.push(new Level(2,"Walking",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(0,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth/2+200,frameSize*2.3));
+  levels.push(new Level(1,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(2,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 
   menu = new Menu();
+  click.setVolume(0.2);
+  //menuMusic.setVolume(0.3);
+  //menuMusic.play();
 }
 
 function draw() {
   background(217,217,217);
+
+  switchToBlack();
+
   if (currentLevel != -1 && currentLevel != -2) {
-    levels[currentLevel].draw();
+    if (switchBlack) {
+      switchToBlack();
+    }
+    else {
+      levels[currentLevel].draw();
+      switchView();
+    }
   }
-  else menu.draw();
- 
-  switchView();
-  //drawFrame();
+  else {
+    if (switchBlack) {
+      switchToBlack();
+    }
+    else {
+      menu.draw();
+    }
+  }
 
   //cursor
   drawCursor();
+
+  fill(0,0,0,blackOpac);
+  rect(0,0,windowWidth,windowHeight);
   }
 
 
@@ -50,6 +84,7 @@ function keyPressed() {
     if (key=='e' || key==' ' || key=="Enter") {
       currentLevel = menu.selected;
       levels[currentLevel].reset();
+      switchBlack = true;
     }
   }
   else {
@@ -61,6 +96,7 @@ function keyPressed() {
     }
     if (key==' ' && !player.jumping) {
       player.vel -= windowHeight/55;
+      player.playJumpSound();
     }
     if (key=='e') switchCheck = true;
   }
@@ -82,7 +118,7 @@ function keyReleased() {
 }
 
 function drawCursor() {
-  if (switchDist>=windowHeight || currentLevel == -1 || currentLevel == -2) {
+  if (switchDist>=windowHeight || currentLevel == -1 || currentLevel == -2 && switchBlack == false) {
     fill(255,255,0);
     circle(mouseX, mouseY,windowHeight/30);
   }
@@ -123,4 +159,25 @@ function clone(obj) {
   } else {
     return obj;
   }
+}
+
+function switchToBlack() {
+  if (switchBlack) {
+    if (blackOpac >= 255) {
+      switchBlack = false;
+      timerBlack = millis();
+    }
+    else blackOpac+=9;
+  }
+
+  else if (millis() - timerBlack > 1000) {
+    auxBlack = true;
+  }
+
+  if (auxBlack) {
+    if (blackOpac <= 0) {
+      auxBlack = false;
+    }
+    else blackOpac-=9;
+  } 
 }
