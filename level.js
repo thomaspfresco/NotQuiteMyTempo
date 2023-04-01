@@ -3,6 +3,7 @@ class Level {
     collectables = [];
     platforms = [];
     blueBlocks = [];
+    draggables = [];
 
     songName;
 
@@ -18,6 +19,7 @@ class Level {
     winX;winY; //posicao da meta do nivel
 
     win; //objeto win
+    drag; //bloco de arrasto
 
     menuX; //pos x do nivel no menu
     sizeMenu; //nivel em destaque no menu
@@ -38,7 +40,7 @@ class Level {
         this.activeSlot = 0;
 
         this.completed = false;
-
+        //this.drag = new Block(windowHeight,windowHeight/1.5,100,20);
         this.win = new Win(winX,winY);
         player.x = this.initX;
         player.y = this.initY;
@@ -56,6 +58,9 @@ class Level {
                 this.blueBlocks.push(new BlueBlock(frameSize*4,windowHeight/2,100,20));
 
                 this.collectables.push(new Collectable(frameSize*2+50,windowHeight/2-25));
+
+                this.draggables.push(new Block(windowHeight,windowHeight/1.5,100,20));
+
                 break;
             default:
                 this.unlocked = false;
@@ -105,6 +110,11 @@ class Level {
             }
         }
 
+        //desenhar draggables
+        for (let d of this.draggables){
+            d.draw();
+        }
+
         //desenhar coletaveis
         for (let c of this.collectables) c.draw();
 
@@ -132,5 +142,17 @@ class Level {
         player.y = this.initY;
         for (let c of this.collectables) c.reset();
     }
+
+    mouseDragged() {
+        this.Block.mouseDragged();
+      }
+      
+    mouseReleased() {
+        this.Block.mouseReleased();
+      }
+      
+
+
+
 }
 
