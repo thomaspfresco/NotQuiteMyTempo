@@ -57,9 +57,9 @@ class Level {
                 this.platforms.push(new Platform(frameSize*4,windowHeight/2,windowWidth/12,windowHeight/35));
 
                 //timelines
-                this.timelines.push(new Timeline("orange",[0,0,1,0,0,1,0,1],500));
-                this.timelines.push(new Timeline("blue",[0,1,0,0,1,0,0,0],600));
-               
+                this.timelines.push(new Timeline("orange",[0,0,1,0,0,1,0,1]));
+                this.timelines.push(new Timeline("blue",[0,1,0,0,1,0,0,0]));
+
                 //blocos
                 this.impulseBlocks.push(new ImpulseBlock(frameSize+windowWidth/12,windowHeight/2,windowWidth/24,windowHeight/35));
                 this.blueBlocks.push(new BlueBlock(frameSize*5.4,windowHeight/2,windowWidth/12,windowHeight/35));
@@ -72,8 +72,7 @@ class Level {
             default:
                 this.unlocked = false;
                 break;
-        }
-
+        }   
     }
 
     draw() {
@@ -90,9 +89,12 @@ class Level {
           }
         }
 
+        //posição relativa timelines
+        this.setPos();
+
         //desenhar timelines
         for (let t of this.timelines) {
-            t.draw(this.activeSlot,t.pos);
+            t.draw(this.activeSlot);
             if (t.type == "orange" && t.sequence[this.activeSlot] == 1) {
                 for (let ib of this.impulseBlocks) ib.active = true;
             }
@@ -103,7 +105,6 @@ class Level {
                 for (let ib of this.impulseBlocks) ib.active = false;
             }
             else for (let bb of this.blueBlocks) bb.active = false;
-        
         }
 
         //avanco timelines
@@ -172,7 +173,6 @@ class Level {
 
     //arrastar o bloco draggable
     mouseDragged() {
-    
         this.draggable.mouseDragged();
       }
       
@@ -181,12 +181,17 @@ class Level {
             console.log(t.sequence.length);
             this.draggable.mouseReleased(t);
         }
-      
-
       }
-      
-
-
-
+    
+    setPos() {
+        if(this.timelines.length == 1) {
+            this.timelines[0].y = windowHeight/2-this.timelines[0].h/2;
+        }
+        else if(this.timelines.length == 2) {
+            console.log("aiaiai"+this.timelines.length);
+            this.timelines[0].y= windowHeight/2 - this.timelines[0].h;
+            this.timelines[1].y=windowHeight/2 + this.timelines[0].h;
+        }
+    }
 }
 
