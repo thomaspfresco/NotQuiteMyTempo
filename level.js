@@ -3,6 +3,7 @@ class Level {
     collectables = [];
     platforms = [];
     blueBlocks = [];
+    impulseBlocks = [];
     draggables = [];
 
     songName;
@@ -41,7 +42,8 @@ class Level {
 
         this.completed = false;
         //this.drag = new Block(windowHeight,windowHeight/1.5,100,20);
-        this.win = new Win(winX,winY);
+        this.win = new Win(frameSize*6,winY);
+        this.draggable = new Draggable(windowWidth/2,windowHeight/2-400,"orange");
         player.x = this.initX;
         player.y = this.initY;
 
@@ -49,17 +51,22 @@ class Level {
             case 0:
                 this.unlocked = true;
 
-                this.platforms.push(new Platform(frameSize,windowHeight/2,100,20));
-                this.platforms.push(new Platform(frameSize*2,windowHeight/2,100,20));
-                this.platforms.push(new Platform(frameSize*3,windowHeight/2,100,20));
+                //plataformas
+                this.platforms.push(new Platform(frameSize,windowHeight/2,windowWidth/12,windowHeight/35));
+                this.platforms.push(new Platform(frameSize*3,windowHeight/2,windowWidth/12,windowHeight/35));
+                this.platforms.push(new Platform(frameSize*4,windowHeight/2,windowWidth/12,windowHeight/35));
 
-                this.timelines.push(new Timeline("blue",[1,0,0,0,1,0,0,0]));
+                //timelines
+                this.timelines.push(new Timeline("orange",[0,0,1,0,0,1,0,1],500));
+                this.timelines.push(new Timeline("blue",[0,1,0,0,1,0,0,0],600));
+               
+                //blocos
+                this.impulseBlocks.push(new ImpulseBlock(frameSize+windowWidth/12,windowHeight/2,windowWidth/24,windowHeight/35));
+                this.blueBlocks.push(new BlueBlock(frameSize*5.4,windowHeight/2,windowWidth/12,windowHeight/35));
+                
+                this.collectables.push(new Collectable(frameSize,windowHeight/2-25));
 
-                this.blueBlocks.push(new BlueBlock(frameSize*4,windowHeight/2,100,20));
-
-                this.collectables.push(new Collectable(frameSize*2+50,windowHeight/2-25));
-
-                this.draggables.push(new Block(windowHeight,windowHeight/1.5,100,20));
+                //this.draggables.push(new Draggable(windowWidth/12,windowHeight/35,windowWidth/2,windowHeight/2-400));
 
                 break;
             default:
@@ -85,11 +92,18 @@ class Level {
 
         //desenhar timelines
         for (let t of this.timelines) {
-            t.draw(this.activeSlot);
-            if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
+            t.draw(this.activeSlot,t.pos);
+            if (t.type == "orange" && t.sequence[this.activeSlot] == 1) {
+                for (let ib of this.impulseBlocks) ib.active = true;
+            }
+            else if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
                 for (let bb of this.blueBlocks) bb.active = true;
             }
+            else if (t.type == "orange" && t.sequence[this.activeSlot]==0){
+                for (let ib of this.impulseBlocks) ib.active = false;
+            }
             else for (let bb of this.blueBlocks) bb.active = false;
+        
         }
 
         //avanco timelines
@@ -97,9 +111,22 @@ class Level {
             this.interClock = this.instant;
             click.play();
             if (this.activeSlot < 8 - 1) this.activeSlot += 1;
+            
             else this.activeSlot = 0;
         }
 
+
+        //desenhar blocos laranja
+        for (let ib of this.impulseBlocks){
+            ib.draw();
+            if (ib.collide(player)) {
+                player.jumping = false;
+                player.impulsePower=60;
+                player.impulse();
+                
+            }
+            
+        }
 
         //desenhar blocos azuis
         for (let bb of this.blueBlocks) {
@@ -110,13 +137,13 @@ class Level {
             }
         }
 
-        //desenhar draggables
-        for (let d of this.draggables){
-            d.draw();
-        }
 
-        //desenhar coletaveis
-        for (let c of this.collectables) c.draw();
+        //desenhar coletaveis e draggable
+        for (let c of this.collectables){
+            c.draw();
+            if(c.catched){
+            this.draggable.draw();
+        }}
 
         //jogador cai
         if (player.y > windowHeight+frameSize) this.reset();
@@ -143,12 +170,19 @@ class Level {
         for (let c of this.collectables) c.reset();
     }
 
+    //arrastar o bloco draggable
     mouseDragged() {
-        this.Block.mouseDragged();
+    
+        this.draggable.mouseDragged();
       }
       
     mouseReleased() {
-        this.Block.mouseReleased();
+        for(let t of this.timelines){
+            console.log(t.sequence.length);
+            this.draggable.mouseReleased(t);
+        }
+      
+
       }
       
 

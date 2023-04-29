@@ -4,18 +4,26 @@ class Timeline {
     sequence;
     color;
     w;h;
+    pos;
+    x;y;
 
-    constructor(type,sequence) {
+
+    constructor(type,sequence,pos) {
         this.type = type;
         this.sequence = sequence;
         this.w = windowWidth/12;
         this.h = windowHeight/35;
+        this.pos = pos;
+        this.x = 0;
+        this.y = 0;
 
         if (type == "blue") this.color = [0,0,255];
         else if (type == "red") this.color = [255,0,0];
+        else if (type == "orange") this.color = [255,128,0];
     }
 
-    draw(current) {
+    draw(current,pos) {
+
         stroke(this.color);
         strokeWeight(2);
 
@@ -37,10 +45,11 @@ class Timeline {
                 noFill();
             }
 
-            var x = windowWidth/2+this.w*(i-4);
-            var y = windowHeight/2;
-
-            rect(x, y-300, this.w, this.h);
+            this.x = windowWidth/2+this.w*(i-4);
+            this.y = windowHeight/2;
+          //  console.log("[TIMELINE X] "+this.x);
+          //  console.log("[TIMELINE Y] "+this.y);
+            rect(this.x, this.y-pos, this.w, this.h);
         }
         
     }

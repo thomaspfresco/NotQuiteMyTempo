@@ -5,7 +5,7 @@ class Collectable {
         
         constructor(x,y) {
             this.catched = false;
-            this.size = 20;
+            this.size = windowWidth/40;;
             this.x = x;
             this.y = y;
         }

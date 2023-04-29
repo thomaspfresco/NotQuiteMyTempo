@@ -5,7 +5,7 @@ class Win {
     
     constructor(x,y) {
         this.winner = false;
-        this.size = 40;
+        this.size = windowWidth/35;
         this.x = x;
         this.y = y;
     }

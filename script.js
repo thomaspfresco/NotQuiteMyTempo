@@ -32,7 +32,7 @@ function setup() {
 
   frameSize = windowWidth/8;
 
-  player = new Player(15,30);
+  player = new Player(windowWidth/65,windowWidth/30);
 
   levels.push(new Level(0,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth/2+200,frameSize*2.3));
   levels.push(new Level(1,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
@@ -77,6 +77,13 @@ function draw() {
 
 //CONTROLOS ---------- // ---------- // ----------
 
+
+function mouseDragged(){
+  levels[currentLevel].mouseDragged();
+}
+function mouseReleased(){
+  levels[currentLevel].mouseReleased();
+}
 function keyPressed() {
   if (currentLevel == -1) {
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") menu.downPosition();
