@@ -43,7 +43,7 @@ class Level {
         this.completed = false;
         //this.drag = new Block(windowHeight,windowHeight/1.5,100,20);
         this.win = new Win(frameSize*6,winY);
-        this.draggable = new Draggable(windowWidth/2,windowHeight/2-400,"orange");
+        this.draggables.push(new Draggable(windowWidth/2,windowHeight/2-400,"neutro"));
         player.x = this.initX;
         player.y = this.initY;
 
@@ -142,10 +142,9 @@ class Level {
         //desenhar coletaveis e draggable
         for (let c of this.collectables){
             c.draw();
-            if(c.catched){
-            this.draggable.draw();
-        }}
-
+            if (c.catched && switchDist>=windowHeight) this.draggables[0].draw();
+        }
+        //this.draggable.draw();
         //jogador cai
         if (player.y > windowHeight+frameSize) this.reset();
 
@@ -173,13 +172,13 @@ class Level {
 
     //arrastar o bloco draggable
     mouseDragged() {
-        this.draggable.mouseDragged();
+        for (let i=0;i<this.draggables.length; i++) this.draggables[i].mouseDragged();
       }
       
     mouseReleased() {
         for(let t of this.timelines){
             console.log(t.sequence.length);
-            this.draggable.mouseReleased(t);
+            this.draggables[0].mouseReleased(t);
         }
       }
     
@@ -188,7 +187,6 @@ class Level {
             this.timelines[0].y = windowHeight/2-this.timelines[0].h/2;
         }
         else if(this.timelines.length == 2) {
-            console.log("aiaiai"+this.timelines.length);
             this.timelines[0].y= windowHeight/2 - this.timelines[0].h;
             this.timelines[1].y=windowHeight/2 + this.timelines[0].h;
         }

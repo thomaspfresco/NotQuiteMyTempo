@@ -5,7 +5,7 @@ class Timeline {
     color;
     w;h;
     x;y;
-
+    yFinal = 0;
 
     constructor(type,sequence) {
         this.type = type;
@@ -44,9 +44,11 @@ class Timeline {
             }
 
             this.x = windowWidth/2+this.w*(i-4);
-          //  console.log("[TIMELINE X] "+this.x);
+            this.yFinal = this.y+switchDist-windowHeight;
+
+           // console.log("[TIMELINE X] "+this.x);
           //  console.log("[TIMELINE Y] "+this.y);
-            rect(this.x, this.y+switchDist-windowHeight, this.w, this.h);
+            rect(this.x, this.yFinal, this.w, this.h);
         }
         
     }

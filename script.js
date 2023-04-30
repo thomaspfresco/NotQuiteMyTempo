@@ -105,7 +105,7 @@ function keyPressed() {
       player.vel -= windowHeight/55;
       player.playJumpSound();
     }
-    if (key=='e') switchCheck = true;
+    //if (key=='e') switchCheck = !switchCheck;
   }
 }
 
@@ -120,7 +120,7 @@ function keyReleased() {
     if (key=='d' || key=="ArrowRight") {
       player.move = 0;
     }
-    if (key=='e') switchCheck = false;
+    if (key=='e') switchCheck = !switchCheck;
   }
 }
 
