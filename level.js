@@ -4,6 +4,7 @@ class Level {
     platforms = [];
     blueBlocks = [];
     impulseBlocks = [];
+    damageBlocks = [];
     draggables = [];
 
     songName;
@@ -43,7 +44,7 @@ class Level {
         this.completed = false;
         //this.drag = new Block(windowHeight,windowHeight/1.5,100,20);
         this.win = new Win(frameSize*6,winY);
-        this.draggables.push(new Draggable(windowWidth/2,windowHeight/2-400,"neutro"));
+        this.draggables.push(new Draggable(windowWidth/2,windowHeight/2-400));
         player.x = this.initX;
         player.y = this.initY;
 
@@ -59,10 +60,12 @@ class Level {
                 //timelines
                 this.timelines.push(new Timeline("orange",[0,0,1,0,0,1,0,1]));
                 this.timelines.push(new Timeline("blue",[0,1,0,0,1,0,0,0]));
+                this.timelines.push(new Timeline("red",[0,0,0,0,1,0,0,0]));
 
                 //blocos
                 this.impulseBlocks.push(new ImpulseBlock(frameSize+windowWidth/12,windowHeight/2,windowWidth/24,windowHeight/35));
                 this.blueBlocks.push(new BlueBlock(frameSize*5.4,windowHeight/2,windowWidth/12,windowHeight/35));
+                this.damageBlocks.push(new DamageBlock(frameSize+windowWidth/16,windowHeight/2.1,windowWidth/24,windowHeight/35))
                 
                 this.collectables.push(new Collectable(frameSize,windowHeight/2-25));
 
@@ -101,6 +104,12 @@ class Level {
             else if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
                 for (let bb of this.blueBlocks) bb.active = true;
             }
+            else if (t.type == "red" && t.sequence[this.activeSlot] == 1) {
+                for (let db of this.damageBlocks) db.active = true;
+            }
+            else if (t.type == "red" && t.sequence[this.activeSlot] == 0) {
+                for (let db of this.damageBlocks) db.active = false;
+            }
             else if (t.type == "orange" && t.sequence[this.activeSlot]==0){
                 for (let ib of this.impulseBlocks) ib.active = false;
             }
@@ -117,16 +126,23 @@ class Level {
         }
 
 
-        //desenhar blocos laranja
+        //desenhar blocos de dano
+        for (let db of this.damageBlocks){
+            db.draw();
+            if (db.collide(player)) {
+                player.jumping = false;
+                this.reset();
+            }     
+        }
+
+        //desenhar blocos de impulso
         for (let ib of this.impulseBlocks){
             ib.draw();
             if (ib.collide(player)) {
                 player.jumping = false;
                 player.impulsePower=60;
-                player.impulse();
-                
-            }
-            
+                player.impulse();     
+            }     
         }
 
         //desenhar blocos azuis
@@ -165,6 +181,7 @@ class Level {
     }
 
     reset() {
+        console.log("reset");
         player.x = this.initX;
         player.y = this.initY;
         for (let c of this.collectables) c.reset();
@@ -189,6 +206,11 @@ class Level {
         else if(this.timelines.length == 2) {
             this.timelines[0].y= windowHeight/2 - this.timelines[0].h;
             this.timelines[1].y=windowHeight/2 + this.timelines[0].h;
+        }
+        else if(this.timelines.length == 3) {
+            this.timelines[0].y = windowHeight/2 - this.timelines[0].h;
+            this.timelines[1].y = windowHeight/2 + this.timelines[0].h;
+            this.timelines[2].y = windowHeight/2 + 3*this.timelines[0].h;
         }
     }
 }
