@@ -9,6 +9,8 @@ class Level {
 
     songName;
 
+    vol;
+
     id; //identificacao
     loopLength; //tempo do loop em milissegundos
     instant; //instante atual

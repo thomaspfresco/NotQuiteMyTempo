@@ -12,7 +12,8 @@ let auxBlack = false;
 let blackOpac = 0;
 let timerBlack = 0;
 
-let menuVolume = 0.3;
+let menuVol = 0.5;
+let ambVol = 0;
 
 let play;
 
@@ -23,6 +24,7 @@ function windowResized() {
 function preload() {
   menuMusic = loadSound("Sounds/menu.mp3");
   click = loadSound("Sounds/click.mp3");
+  ambient = loadSound("Sounds/ambient.mp3");
   
   note1 = loadSound("Sounds/note1.mp3");
   note2 = loadSound("Sounds/note2.mp3");
@@ -56,15 +58,18 @@ function setup() {
   levels.push(new Level(2,"music name",6000,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 
   menu = new Menu();
+  
   click.setVolume(0.2);
   win.setVolume(0.2);
   impulse.setVolume(0.1);
-  //menuMusic.setVolume(menuVolume);
+  
   menuMusic.loop();
+  ambient.loop();
 }
 
 function draw() {
-  menuMusic.setVolume(menuVolume);
+  ambient.setVolume(ambVol);
+  menuMusic.setVolume(menuVol);
 
   //menuMusic.setVolume(0.3-map(blackOpac,0,255,0,0.3));
 
@@ -78,7 +83,11 @@ function draw() {
       switchToBlack();
     }
     else {
-      if (menuVolume >= 0) menuVolume -= 0.01;
+      if (menuVol > 0) {
+        if ( menuVol - 0.01 < 0) menuVol = 0;
+        else menuVol -= 0.01;
+      }
+      if (ambVol < 0.5) ambVol += 0.001;
       levels[currentLevel].draw();
       switchView();
     }
@@ -89,7 +98,11 @@ function draw() {
     }
     else {
       menu.draw();
-      if (menuVolume < 0.3) menuVolume += 0.0004;
+      if (ambVol > 0) {
+        if ( ambVol - 0.01 < 0) ambVol = 0;
+        else ambVol -= 0.01;
+      }
+      if (menuVol < 0.5) menuVol += 0.0002;
     }
   }
 
