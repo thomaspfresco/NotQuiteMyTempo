@@ -5,9 +5,13 @@ class Player {
     move; //distancia esquerda/direita
     walk; //velocidade de movimento
     jumping; //bool de controlo de salto e colisao~
-    impulsePower;
+    impulsePower = windowHeight/10;
     jumpSounds = [loadSound("Sounds/jump1.mp3"),loadSound("Sounds/jump2.mp3"),loadSound("Sounds/jump3.mp3"),loadSound("Sounds/jump4.mp3")];
     panning;
+    acc = 1;
+    inc = 0.07;
+    distToDeath = 2*windowHeight;
+    dead = false;
 
     constructor(w,h) {
         this.x = 0;
@@ -22,24 +26,28 @@ class Player {
     }
 
     draw() {
-        fill(255, 0, 0);
+        fill(84,5,149);
         noStroke();
         rect(this.x, this.y-this.h+switchDist, this.w, this.h);
         
          // player movement
-         this.vel *= 0.9;
+         this.vel *= 0.8;
          this.y += this.vel;
          this.x += this.move;
 
+         this.panning = map(this.x, 0+frameSize, windowWidth-frameSize, -1.0, 1.0);
+
         // player velocity
         if (this.jumping) {
-            this.vel += 1.7;
+            if(this.acc<5) this.acc+=this.inc;
+            this.vel += this.acc;
         }
-       
+        else this.acc=1;
     }
 
-    playJumpSound() {
-        this.panning = map(this.x, 0+frameSize, windowWidth-frameSize, -1.0, 1.0);
+    jump(){
+        this.vel -= windowHeight/30;
+        
         let aux = int(random(0,4));
         this.jumpSounds[aux].pan(this.panning);
         this.jumpSounds[aux].play();
@@ -47,6 +55,19 @@ class Player {
 
     impulse(){
         this.vel=-this.impulsePower;
+        impulse.play();
     }
 
+    reset(initX,initY) {
+        this.x = initX;
+        this.y = initY;
+        this.dead = false;
+        this.acc=1;
+    }
+
+    death(){
+        death.pan(this.panning);
+        if(this.dead == false) death.play();
+        this.dead = true;
+    }
 }

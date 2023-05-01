@@ -26,10 +26,9 @@ class Level {
     menuX; //pos x do nivel no menu
     sizeMenu; //nivel em destaque no menu
 
-    constructor(id,songName,loopLength,nTimelines,nChuncks,initX,initY,winX,winY) {
+    constructor(id,songName,loopLength,nChuncks,initX,initY,winX,winY) {
         this.id = id;
         this.songName = songName;
-        this.nTimelines = nTimelines;
         this.loopLength = loopLength;
         this.nChuncks = nChuncks;
         this.initX = initX;
@@ -43,8 +42,7 @@ class Level {
 
         this.completed = false;
         //this.drag = new Block(windowHeight,windowHeight/1.5,100,20);
-        this.win = new Win(frameSize*6,winY);
-        this.draggables.push(new Draggable(windowWidth/2,windowHeight/2-400));
+        this.win = new Win(winX,winY);
         player.x = this.initX;
         player.y = this.initY;
 
@@ -52,26 +50,50 @@ class Level {
             case 0:
                 this.unlocked = true;
 
-                //plataformas
-                this.platforms.push(new Platform(frameSize,windowHeight/2,windowWidth/12,windowHeight/35));
-                this.platforms.push(new Platform(frameSize*3,windowHeight/2,windowWidth/12,windowHeight/35));
-                this.platforms.push(new Platform(frameSize*4,windowHeight/2,windowWidth/12,windowHeight/35));
-
                 //timelines
-                this.timelines.push(new Timeline("orange",[0,0,1,0,0,1,0,1]));
-                this.timelines.push(new Timeline("blue",[0,1,0,0,1,0,0,0]));
-                this.timelines.push(new Timeline("red",[0,0,0,0,1,0,0,0]));
+                this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
+
+                //posição relativa timelines
+                this.setPos();
+
+                this.createDraggables();
+
+                //plataformas
+                this.platforms.push(new Platform(windowHeight/3,windowHeight/2,windowWidth/6,windowHeight/35));
+                this.platforms.push(new Platform(windowWidth-windowHeight/3-windowWidth/6,windowHeight/2,windowWidth/6,windowHeight/35));
 
                 //blocos
-                this.impulseBlocks.push(new ImpulseBlock(frameSize+windowWidth/12,windowHeight/2,windowWidth/24,windowHeight/35));
-                this.blueBlocks.push(new BlueBlock(frameSize*5.4,windowHeight/2,windowWidth/12,windowHeight/35));
-                this.damageBlocks.push(new DamageBlock(frameSize+windowWidth/16,windowHeight/2.1,windowWidth/24,windowHeight/35))
+                this.blueBlocks.push(new BlueBlock(windowWidth/2-windowWidth/12,windowHeight/2,windowWidth/6,windowHeight/35));
                 
-                this.collectables.push(new Collectable(frameSize,windowHeight/2-25));
-
-                //this.draggables.push(new Draggable(windowWidth/12,windowHeight/35,windowWidth/2,windowHeight/2-400));
+                this.collectables.push(new Collectable(windowWidth/3.2,windowHeight/2.5));
 
                 break;
+            case 1:
+
+                //timelines
+                this.timelines.push(new Timeline("orange",[0,1,0,0,0,1,0,0],[kick1]));
+                this.timelines.push(new Timeline("blue",[1,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
+                this.timelines.push(new Timeline("red",[0,0,0,0,0,0,1,0],[snare]));
+
+                //posição relativa timelines
+                this.setPos();
+
+                this.createDraggables();
+
+                //plataformas
+                this.platforms.push(new Platform(-windowHeight/4,windowHeight/2+windowHeight/4,windowHeight/2,windowHeight/35));
+                this.platforms.push(new Platform(windowWidth/3.4,windowHeight-windowHeight/3,windowWidth/6,windowHeight/35));
+                this.platforms.push(new Platform(windowWidth-windowWidth/4,windowHeight-windowHeight/3,windowWidth/6,windowHeight/35));
+
+                //blocos
+                this.impulseBlocks.push(new ImpulseBlock(windowWidth/6,windowHeight-windowHeight/6,windowWidth/10,windowHeight/35));
+                this.blueBlocks.push(new BlueBlock(windowWidth-windowWidth/2.18,windowHeight-windowHeight/3,windowWidth/6,windowHeight/35));
+                this.damageBlocks.push(new DamageBlock(windowWidth/2-windowWidth/100,windowHeight/2,windowWidth/50,windowHeight/4));
+                
+                this.collectables.push(new Collectable(windowWidth/3,windowHeight-windowHeight/2.6));
+
+                break;
+
             default:
                 this.unlocked = false;
                 break;
@@ -91,9 +113,6 @@ class Level {
             player.y = p.y;
           }
         }
-
-        //posição relativa timelines
-        this.setPos();
 
         //desenhar timelines
         for (let t of this.timelines) {
@@ -120,18 +139,17 @@ class Level {
         if (this.instant - this.interClock >= this.loopLength / 8) {
             this.interClock = this.instant;
             click.play();
+            for (let t of this.timelines) t.canPlay = true;
             if (this.activeSlot < 8 - 1) this.activeSlot += 1;
-            
             else this.activeSlot = 0;
         }
-
 
         //desenhar blocos de dano
         for (let db of this.damageBlocks){
             db.draw();
             if (db.collide(player)) {
                 player.jumping = false;
-                this.reset();
+                player.y = windowHeight+player.h;
             }     
         }
 
@@ -140,7 +158,6 @@ class Level {
             ib.draw();
             if (ib.collide(player)) {
                 player.jumping = false;
-                player.impulsePower=60;
                 player.impulse();     
             }     
         }
@@ -154,15 +171,24 @@ class Level {
             }
         }
 
+        //desenhar draggables
+        for (let d of this.draggables) d.draw(this.draggables);
 
-        //desenhar coletaveis e draggable
+
+        //desenhar coletaveis
         for (let c of this.collectables){
             c.draw();
-            if (c.catched && switchDist>=windowHeight) this.draggables[0].draw();
+            if (c.catched && switchDist>=windowHeight) {
+                if(c.createBlock == false) {
+                    this.draggables.push(new Draggable(200, 200, -1, [194,190,204], "none"));
+                    c.createBlock = true;
+                }
+            }
         }
-        //this.draggable.draw();
+        
         //jogador cai
-        if (player.y > windowHeight+frameSize) this.reset();
+        if (player.y > windowHeight) player.death();
+        if (player.y > player.distToDeath) this.reset();
 
         this.win.draw();
         player.draw();
@@ -174,6 +200,8 @@ class Level {
             player.vel = 0;
             player.move = 0;
         }
+
+        //drawFrame();
     }
 
     addPlatform(x,y,w,h) {
@@ -182,20 +210,25 @@ class Level {
 
     reset() {
         console.log("reset");
-        player.x = this.initX;
-        player.y = this.initY;
+        player.reset(this.initX,this.initY);
+
+        this.draggables = [];
+        
+        for (let t of this.timelines) t.reset();
         for (let c of this.collectables) c.reset();
+
+        this.createDraggables();
     }
 
     //arrastar o bloco draggable
     mouseDragged() {
-        for (let i=0;i<this.draggables.length; i++) this.draggables[i].mouseDragged();
-      }
+        for (let d of this.draggables) d.mouseDragged();
+      } 
       
     mouseReleased() {
         for(let t of this.timelines){
             console.log(t.sequence.length);
-            this.draggables[0].mouseReleased(t);
+            for (let d of this.draggables) d.mouseReleased(this.timelines);
         }
       }
     
@@ -204,14 +237,23 @@ class Level {
             this.timelines[0].y = windowHeight/2-this.timelines[0].h/2;
         }
         else if(this.timelines.length == 2) {
-            this.timelines[0].y= windowHeight/2 - this.timelines[0].h;
-            this.timelines[1].y=windowHeight/2 + this.timelines[0].h;
+            this.timelines[0].y= windowHeight/2 - this.timelines[0].h  -this.timelines[0].h/2;
+            this.timelines[1].y= windowHeight/2 + this.timelines[0].h  -this.timelines[0].h/2;
         }
         else if(this.timelines.length == 3) {
-            this.timelines[0].y = windowHeight/2 - this.timelines[0].h;
-            this.timelines[1].y = windowHeight/2 + this.timelines[0].h;
-            this.timelines[2].y = windowHeight/2 + 3*this.timelines[0].h;
+            this.timelines[0].y = windowHeight/2 - 2*this.timelines[0].h  -this.timelines[0].h/2;
+            this.timelines[1].y = windowHeight/2 - this.timelines[0].h/2;
+            this.timelines[2].y = windowHeight/2 + 2*this.timelines[0].h  -this.timelines[0].h/2;
         }
     }
+    
+    createDraggables() {
+        for (let t of this.timelines) {
+            for (let i = 0; i < t.sequence.length; i++)  {
+                if (t.sequence[i] == 1) this.draggables.push(new Draggable(windowWidth/2+t.w*(i-4), t.y, i, t.color, t.type));
+             }
+         }
+         console.log(this.draggables);
+        }
 }
 

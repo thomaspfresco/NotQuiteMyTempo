@@ -12,14 +12,31 @@ let auxBlack = false;
 let blackOpac = 0;
 let timerBlack = 0;
 
+let menuVolume = 0.3;
+
+let play;
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
 function preload() {
-  menuMusic = loadSound("Sounds/DJ test.mp3");
+  menuMusic = loadSound("Sounds/menu.mp3");
   click = loadSound("Sounds/click.mp3");
+  
   note1 = loadSound("Sounds/note1.mp3");
+  note2 = loadSound("Sounds/note2.mp3");
+  note3 = loadSound("Sounds/note3.mp3");
+  note4 = loadSound("Sounds/note4.mp3");
+
+  win = loadSound("Sounds/win.mp3");
+  collect = loadSound("Sounds/collect.mp3");
+  death = loadSound("Sounds/death.mp3");
+  impulse = loadSound("Sounds/impulse.wav");
+
+  kick1 = loadSound("Sounds/kick1.mp3");
+  kick2 = loadSound("Sounds/kick2.mp3");
+  snare = loadSound("Sounds/snare.mp3");
 } 
 
 function setup() {
@@ -30,30 +47,38 @@ function setup() {
   bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
   textFont(bold);
 
-  frameSize = windowWidth/8;
+  frameSize = windowWidth/15;
 
-  player = new Player(windowWidth/65,windowWidth/30);
+  player = new Player(windowWidth/30,windowWidth/30);
 
-  levels.push(new Level(0,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth/2+200,frameSize*2.3));
-  levels.push(new Level(1,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
-  levels.push(new Level(2,"music name",6000,1,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(0,"music name",6000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
+  levels.push(new Level(1,"music name",4000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.6));
+  levels.push(new Level(2,"music name",6000,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 
   menu = new Menu();
   click.setVolume(0.2);
-  //menuMusic.setVolume(0.3);
-  //menuMusic.play();
+  win.setVolume(0.2);
+  impulse.setVolume(0.1);
+  //menuMusic.setVolume(menuVolume);
+  menuMusic.loop();
 }
 
 function draw() {
+  menuMusic.setVolume(menuVolume);
+
+  //menuMusic.setVolume(0.3-map(blackOpac,0,255,0,0.3));
+
   background(217,217,217);
 
   switchToBlack();
 
   if (currentLevel != -1 && currentLevel != -2) {
+
     if (switchBlack) {
       switchToBlack();
     }
     else {
+      if (menuVolume >= 0) menuVolume -= 0.01;
       levels[currentLevel].draw();
       switchView();
     }
@@ -64,11 +89,11 @@ function draw() {
     }
     else {
       menu.draw();
+      if (menuVolume < 0.3) menuVolume += 0.0004;
     }
   }
 
   //cursor
-  drawCursor();
 
   fill(0,0,0,blackOpac);
   rect(0,0,windowWidth,windowHeight);
@@ -101,10 +126,7 @@ function keyPressed() {
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
       player.move = player.walk;
     }
-    if (key==' ' && !player.jumping) {
-      player.vel -= windowHeight/55;
-      player.playJumpSound();
-    }
+    if (key==' ' && !player.jumping) player.jump();
     //if (key=='e') switchCheck = !switchCheck;
   }
 }
