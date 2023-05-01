@@ -140,7 +140,7 @@ function keyPressed() {
       player.move = player.walk;
     }
     if (key==' ' && !player.jumping) player.jump();
-    //if (key=='e') switchCheck = !switchCheck;
+    //if (key=='e') switchCheck = true;
   }
 }
 
@@ -155,6 +155,7 @@ function keyReleased() {
     if (key=='d' || key=="ArrowRight") {
       player.move = 0;
     }
+    //if (key=='e') switchCheck = false;
     if (key=='e') switchCheck = !switchCheck;
   }
 }
