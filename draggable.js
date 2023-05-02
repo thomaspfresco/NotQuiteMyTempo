@@ -80,7 +80,7 @@ class Draggable {
       else if (r[0].type.localeCompare("none") == 0) {
         this.findTimeline(timelines, this.type).sequence[this.current] = 0;
         this.type = "none";
-        this.color = [194, 190, 204]
+        this.color = [49,49,49]
       }
 
     }

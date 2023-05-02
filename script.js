@@ -53,9 +53,11 @@ function setup() {
 
   player = new Player(windowWidth/30,windowWidth/30);
 
-  levels.push(new Level(0,"music name",6000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
-  levels.push(new Level(1,"music name",4000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.7));
-  levels.push(new Level(2,"music name",6000,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
+  levels.push(new Level(0,"music name",7000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
+  levels.push(new Level(1,"music name",7000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
+  levels.push(new Level(2,"music name",5000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.7));
+  levels.push(new Level(3,"RICK ROLL",5000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.7));
+
 
   menu = new Menu();
 
@@ -110,7 +112,7 @@ function draw() {
   }
 
   //cursor
-
+  drawCursor();
   fill(0,0,0,blackOpac);
   rect(0,0,windowWidth,windowHeight);
   }
