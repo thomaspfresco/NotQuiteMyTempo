@@ -54,10 +54,12 @@ function setup() {
   player = new Player(windowWidth/30,windowWidth/30);
 
   levels.push(new Level(0,"music name",6000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
-  levels.push(new Level(1,"music name",4000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.6));
+  levels.push(new Level(1,"music name",4000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.7));
   levels.push(new Level(2,"music name",6000,1,frameSize+42,frameSize*2,windowWidth-frameSize,frameSize*4));
 
   menu = new Menu();
+
+  //splashScreen = new splashScreen("ola eva");
   
   click.setVolume(0.2);
   win.setVolume(0.2);
@@ -97,6 +99,7 @@ function draw() {
       switchToBlack();
     }
     else {
+      //splashScreen.draw();
       menu.draw();
       if (ambVol > 0) {
         if ( ambVol - 0.01 < 0) ambVol = 0;

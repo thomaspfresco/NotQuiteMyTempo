@@ -46,7 +46,7 @@ class Player {
     }
 
     jump(){
-        this.vel -= windowHeight/30;
+        this.vel -= windowHeight/25;
         
         let aux = int(random(0,4));
         this.jumpSounds[aux].pan(this.panning);

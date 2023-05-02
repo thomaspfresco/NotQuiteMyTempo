@@ -14,7 +14,7 @@ class Win {
         noStroke();
         fill(0,150,0);
         circle(this.x,this.y+switchDist,this.size,this.size);
-        if ((player.x <= this.x+20 && player.x >= this.x-20) && (player.y <= this.y+20 && player.y >= this.y - 20)) {
+        if (((player.x+player.w/2 <= this.x+this.size+this.size/2 && player.x+player.w/2 >= this.x-this.size/2)) && (player.y <= this.y+this.size && player.y >= this.y)) {
             if (this.winner == false) win.play();
             this.winner = true;
             switchBlack = true;
