@@ -40,7 +40,7 @@ class Player {
         // player velocity
         if (this.jumping) {
             if(this.acc<5) this.acc+=this.inc;
-            this.vel += this.acc;
+            this.vel += (this.acc*this.acc)/2;
         }
         else this.acc=1;
     }
@@ -63,11 +63,13 @@ class Player {
         this.y = initY;
         this.dead = false;
         this.acc=1;
+        this.vel = 0;
     }
 
     death(){
         death.pan(this.panning);
         if(this.dead == false) death.play();
         this.dead = true;
+       
     }
 }

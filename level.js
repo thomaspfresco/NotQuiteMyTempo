@@ -235,6 +235,7 @@ class Level {
     reset() {
         console.log("reset");
         player.reset(this.initX,this.initY);
+        
 
         this.draggables = [];
         

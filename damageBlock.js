@@ -29,13 +29,17 @@ class DamageBlock {
     }
   
     collide(p) {
-      if (p.x > this.x+this.margin && p.y > this.y &&
-          p.x < this.x+this.w+this.margin && p.y < this.y+this.h && this.active) {
-  
-        return true;
+
+      //console.log("p.y",p.y );
+      if (((p.x >this.x && p.x < this.x +this.w ) || (p.x+p.w < this.x+this.w && p.x+p.w > this.x )) && p.y > this.y && p.y < this.y + this.h && this.active) {
+          
+          return true;
+        }
+      else {
+        return false;
       }
-      return false;
-    }
+        
+      }
   
   }
   
