@@ -128,12 +128,16 @@ class Level {
 
     draw() {
         this.instant = millis();
-        if (millis()-this.eTimer>=3000) {
+        if (millis()-this.eTimer>=3500) {
             if (this.eAlpha >= 0) this.eAlpha -= 5;
         }
      
         fill(49,49,49,this.eAlpha);
-        text("Press E", 200, 100);
+        
+        noStroke();
+
+        textSize(32);
+        text("Press E", windowWidth/10, windowHeight/10);
 
         player.jumping = true;
 
