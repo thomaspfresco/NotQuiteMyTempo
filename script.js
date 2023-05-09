@@ -143,6 +143,11 @@ function keyPressed() {
     }
   }
   else {
+    if (key == "Escape") {
+      currentLevel = -1;
+      switchBlack = true;
+    }
+
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
       player.move = -player.walk;
       leftPressed=1;
@@ -161,6 +166,7 @@ function keyReleased() {
 
   }
   else {
+
     if (key=='a' || key=="ArrowLeft") {
       leftPressed = 0;
       if(rightPressed){
