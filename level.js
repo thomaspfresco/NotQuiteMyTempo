@@ -72,29 +72,29 @@ class Level {
                 this.collectables.push(new Collectable(windowWidth/3.2,windowHeight/2.5));
 
                 break;
-                case 1:
-                    //this.unlocked = true;
-    
-                    //timelines
-                    this.timelines.push(new Timeline("blue",[0,0,0,0,1,0,0,0],[note1,note2,note3,note4]));
-                    this.timelines.push(new Timeline("red",[0,0,0,1,1,0,0,0],[snare]));
-
-                    //posição relativa timelines
-                    this.setPos();
-    
-                    this.createDraggables();
-    
-                    //plataformas
-                    this.platforms.push(new Platform(windowHeight/3.5,windowHeight/2,windowWidth/6,windowHeight/35));
-                    this.platforms.push(new Platform(windowWidth-windowHeight/3-windowWidth/6,windowHeight/2,windowWidth/6,windowHeight/35));
-    
-                    //blocos
-                    this.blueBlocks.push(new BlueBlock(windowWidth/2-windowWidth/12,windowHeight/2,windowWidth/6,windowHeight/35));
-                    this.damageBlocks.push(new DamageBlock(windowWidth/2.7,windowHeight/3,windowWidth/50,windowHeight/4));
-    
-                    break;    
-            case 2:
+            case 1:
                 //this.unlocked = true;
+
+                //timelines
+                this.timelines.push(new Timeline("blue",[0,0,0,0,1,0,0,0],[note1,note2,note3,note4]));
+                this.timelines.push(new Timeline("red",[0,0,0,1,1,0,0,0],[snare]));
+
+                //posição relativa timelines
+                this.setPos();
+
+                this.createDraggables();
+
+                //plataformas
+                this.platforms.push(new Platform(windowHeight/3.5,windowHeight/2,windowWidth/6,windowHeight/35));
+                this.platforms.push(new Platform(windowWidth-windowHeight/3-windowWidth/6,windowHeight/2,windowWidth/6,windowHeight/35));
+
+                //blocos
+                this.blueBlocks.push(new BlueBlock(windowWidth/2-windowWidth/12,windowHeight/2,windowWidth/6,windowHeight/35));
+                this.damageBlocks.push(new DamageBlock(windowWidth/2.7,windowHeight/3,windowWidth/50,windowHeight/4));
+
+                break;    
+            case 2:
+                this.unlocked = true;
 
                 //timelines
                 this.timelines.push(new Timeline("orange",[0,1,0,0,0,1,0,0],[kick1]));
