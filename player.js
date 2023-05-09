@@ -46,11 +46,13 @@ class Player {
     }
 
     jump(){
+        if (!this.jumping) {
         this.vel -= windowHeight/25;
         
         let aux = int(random(0,4));
         this.jumpSounds[aux].pan(this.panning);
         this.jumpSounds[aux].play();
+        }
     }
 
     impulse(){

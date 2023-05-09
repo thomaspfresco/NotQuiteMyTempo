@@ -16,6 +16,8 @@ let menuVol = 0.5;
 let ambVol = 0;
 
 let play;
+let leftPressed = 0;
+let rightPressed = 0;
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -53,7 +55,7 @@ function setup() {
 
   player = new Player(windowWidth/30,windowWidth/30);
 
-  levels.push(new Level(0,"music name",7000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
+  levels.push(new Level(0,"music name",8000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
   levels.push(new Level(1,"music name",7000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
   levels.push(new Level(2,"music name",5000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.7));
   levels.push(new Level(3,"RICK ROLL",5000,1,windowWidth/15,windowHeight/2+windowWidth/15,windowWidth-windowWidth/9,windowHeight-windowHeight/2.7));
@@ -75,6 +77,7 @@ function draw() {
   ambient.setVolume(ambVol);
   menuMusic.setVolume(menuVol);
 
+  
   //menuMusic.setVolume(0.3-map(blackOpac,0,255,0,0.3));
 
   background(217,217,217);
@@ -125,6 +128,7 @@ function mouseDragged(){
   levels[currentLevel].mouseDragged();
 }
 function mouseReleased(){
+  if (currentLevel == 0) levels[currentLevel].eTimer = millis();
   levels[currentLevel].mouseReleased();
 }
 function keyPressed() {
@@ -133,6 +137,7 @@ function keyPressed() {
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") menu.upPosition();
     if (key=='e' || key==' ' || key=="Enter") {
       currentLevel = menu.selected;
+      levels[currentLevel].eTimer = millis();
       levels[currentLevel].reset();
       switchBlack = true;
     }
@@ -140,11 +145,13 @@ function keyPressed() {
   else {
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
       player.move = -player.walk;
+      leftPressed=1;
     }
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
       player.move = player.walk;
+      rightPressed=1;
     }
-    if (key==' ' && !player.jumping) player.jump();
+    if (key==' ' || key=='w' || key=='ArrowUp' && !player.jumping) player.jump();
     //if (key=='e') switchCheck = true;
   }
 }
@@ -155,14 +162,26 @@ function keyReleased() {
   }
   else {
     if (key=='a' || key=="ArrowLeft") {
-      player.move = 0;
+      leftPressed = 0;
+      if(rightPressed){
+        player.move = player.walk;
+      }
+      else{player.move = 0;}
+      
     }
+
     if (key=='d' || key=="ArrowRight") {
-      player.move = 0;
+      rightPressed=0;
+      if(leftPressed){
+        player.move=-player.walk;
+      }
+      else{
+      player.move = 0;}
     }
     //if (key=='e') switchCheck = false;
-    if (key=='e') switchCheck = !switchCheck;
+    
   }
+  if (key=='e') switchCheck = !switchCheck;
 }
 
 function drawCursor() {
@@ -173,11 +192,17 @@ function drawCursor() {
 }
 
 function switchView() {
-  if (switchCheck && switchDist<windowHeight) switchDist+=switchInc;
-  else if (!switchCheck && switchDist>0) switchDist-=switchInc;
+  if (switchCheck && switchDist<windowHeight){
+    if(switchDist+switchInc > windowHeight)switchDist=windowHeight;
+      else switchDist+=switchInc;
+    }
+ 
+  else if (!switchCheck && switchDist>0){
+    if(switchDist-switchInc < 0) switchDist = 0;
+    else switchDist-=switchInc;
   
 }
-
+}
 function drawFrame() {
     fill(49,49,49);
     noStroke();

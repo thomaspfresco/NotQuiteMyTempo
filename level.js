@@ -21,7 +21,7 @@ class Level {
     activeSlot; //slot atual em todas as timelines
     initX;initY; // posicao inicial do jogador no nivel
     winX;winY; //posicao da meta do nivel
-
+    eAlpha;
     win; //objeto win
     drag; //bloco de arrasto
 
@@ -41,6 +41,7 @@ class Level {
         this.instant = 0;
         this.interClock = 0;
         this.activeSlot = 0;
+        this.eAlpha = 0;
 
         this.completed = false;
         //this.drag = new Block(windowHeight,windowHeight/1.5,100,20);
@@ -51,6 +52,7 @@ class Level {
         switch(id) {
             case 0:
                 this.unlocked = true;
+                this.eAlpha = 255;
 
                 //timelines
                 this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
@@ -126,7 +128,13 @@ class Level {
 
     draw() {
         this.instant = millis();
-        
+        if (millis()-this.eTimer>=3000) {
+            if (this.eAlpha >= 0) this.eAlpha -= 5;
+        }
+     
+        fill(49,49,49,this.eAlpha);
+        text("Press E", 200, 100);
+
         player.jumping = true;
 
         //verificar colisoes e desenhar plataformas fixas

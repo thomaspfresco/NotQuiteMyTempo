@@ -27,7 +27,7 @@ class Draggable {
     noStroke();
     rect(this.rectX, this.rectY + switchDist - windowHeight, this.rectW, this.rectH);
 
-    if (mouseX >= this.rectX && mouseX < this.rectX + this.rectW &&
+    if (mouseX > this.rectX && mouseX < this.rectX + this.rectW &&
       mouseY > this.rectY && mouseY < this.rectY + this.rectH && mouseIsPressed) {
       for (let d of draggables) d.check = false;
       this.check = true;
@@ -37,8 +37,8 @@ class Draggable {
   mouseDragged() {
     if (this.check) {
       this.dragging = true;
-      this.rectX = mouseX - this.rectW / 2;
-      this.rectY = mouseY - this.rectH / 2;
+      this.rectX = mouseX-this.rectW/2;
+      this.rectY = mouseY-this.rectH/2;
     }
   }
 
@@ -50,7 +50,7 @@ class Draggable {
       if (r[0].type.localeCompare("none") != 0 && this.type.localeCompare("none") != 0 && r[0].sequence[r[2]] == 0) {
 
         this.rectX = r[1];
-        this.rectY = r[0].yFinal;
+        this.rectY = r[0].y;
         this.color = r[0].color;
 
         this.findTimeline(timelines, this.type).sequence[this.current] = 0;
@@ -63,7 +63,7 @@ class Draggable {
       //fora para timeline
       else if (r[0].type.localeCompare("none") != 0 && this.type.localeCompare("none") == 0 && r[0].sequence[r[2]] == 0) {
         this.rectX = r[1];
-        this.rectY = r[0].yFinal;
+        this.rectY = r[0].y;
         this.color = r[0].color;
 
         this.type = r[0].type;
