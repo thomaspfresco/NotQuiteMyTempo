@@ -122,7 +122,7 @@ class Draggable {
         ) {
           timeline.sequence[this.current] = 0;
         }
-
+  
         let outsideDraggables = draggables.filter(
           (draggable) => !draggable.inside
         );
@@ -130,12 +130,12 @@ class Draggable {
         let spacing = 30;
         const totalWidth = count * (this.rectW + spacing);
         let startX = windowWidth / 2 - totalWidth / 2 + spacing / 2;
-
+  
         outsideDraggables.forEach((draggable, index) => {
           draggable.rectX = startX + index * (this.rectW + spacing);
           draggable.rectY = windowHeight / 2 + 3 * this.rectH;
         });
-
+  
         this.rectX = startX + count * (this.rectW + spacing);
         this.rectY = windowHeight / 2 + 3 * this.rectH;
         this.inside = false;
@@ -143,6 +143,18 @@ class Draggable {
         this.color = [49, 49, 49];
         this.inside = false;
       }
+      let outsideDraggables = draggables.filter(
+        (draggable) => !draggable.inside
+      );
+   
+      let spacing = 30;
+      const totalWidth = count * (this.rectW + spacing);
+      let startX = windowWidth / 2 - totalWidth / 2 + spacing / 2;
+  
+      outsideDraggables.forEach((draggable, index) => {
+        draggable.rectX = startX + index * (this.rectW + spacing);
+        draggable.rectY = windowHeight / 2 + 3 * this.rectH;
+      });
     }
     this.check = false;
     this.dragging = false;
