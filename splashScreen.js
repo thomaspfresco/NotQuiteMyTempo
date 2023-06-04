@@ -11,7 +11,7 @@ class splashScreen {
   }
 
   draw() {
-    textFont(bold);
+    textFont(cufel);
     textSize(70);
   
     let totalWidth = 0;

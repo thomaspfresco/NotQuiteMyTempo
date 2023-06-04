@@ -50,8 +50,9 @@ function setup() {
   activeSS = true;
   light=loadFont('Fonts/Gilroy-Light.otf');
   bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
-  main=loadFont('Fonts/cufel.otf');
-  textFont(bold);
+  cufel=loadFont('Fonts/cufel.otf');
+  
+  textFont(cufel);
 
   frameSize = windowWidth/15;
 
@@ -64,7 +65,6 @@ function setup() {
 
 
   menu = new Menu();
-
   splashScreen = new splashScreen("NOT QUITE MY TEMPO");
   
   click.setVolume(0.2);

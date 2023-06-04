@@ -46,6 +46,7 @@ class Menu {
                 
                 rect(l.menuX-l.sizeMenu/2, windowHeight/2-l.sizeMenu/2,l.sizeMenu,l.sizeMenu);
 
+                textFont(cufel);
                 textSize(l.sizeMenu/12);
                 textAlign(RIGHT,CENTER);
                 text(l.id+1+". "+l.songName, l.menuX+l.sizeMenu/25,windowHeight/2 + l.sizeMenu/1.8);
