@@ -18,6 +18,7 @@ let ambVol = 0;
 let play;
 let leftPressed = 0;
 let rightPressed = 0;
+let activeSS;
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -46,9 +47,10 @@ function preload() {
 function setup() {
   frameRate(60);
   createCanvas(windowWidth, windowHeight);
-
+  activeSS = true;
   light=loadFont('Fonts/Gilroy-Light.otf');
   bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
+  main=loadFont('Fonts/cufel.otf');
   textFont(bold);
 
   frameSize = windowWidth/15;
@@ -63,7 +65,7 @@ function setup() {
 
   menu = new Menu();
 
-  //splashScreen = new splashScreen("ola eva");
+  splashScreen = new splashScreen("NOT QUITE MY TEMPO");
   
   click.setVolume(0.2);
   win.setVolume(0.2);
@@ -84,6 +86,10 @@ function draw() {
 
   switchToBlack();
 
+  if(activeSS){
+    splashScreen.draw();
+  }
+  
   if (currentLevel != -1 && currentLevel != -2) {
 
     if (switchBlack) {
@@ -104,8 +110,9 @@ function draw() {
       switchToBlack();
     }
     else {
-      //splashScreen.draw();
-      menu.draw();
+      if(activeSS==false){
+        menu.draw();
+       }
       if (ambVol > 0) {
         if ( ambVol - 0.01 < 0) ambVol = 0;
         else ambVol -= 0.01;
@@ -132,6 +139,11 @@ function mouseReleased(){
   levels[currentLevel].mouseReleased();
 }
 function keyPressed() {
+  if (activeSS) {
+    currentLevel = -2;
+    activeSS = false;
+    switchBlack = true;
+  }
   if (currentLevel == -1) {
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") menu.downPosition();
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") menu.upPosition();
