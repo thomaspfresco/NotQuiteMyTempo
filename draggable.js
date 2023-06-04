@@ -4,15 +4,23 @@ class Draggable {
   dragging = false;
   type;
   current;
+  inside;
 
-  constructor(rectX, rectY, current, color, type) {
+  constructor(rectX, rectY, current, color, type,inside) {
     this.rectW = windowWidth / 10;
     this.rectH = windowHeight / 25;
     this.rectX = rectX;
     this.rectY = rectY;
-
-    this.bX = rectX;
-    this.bY = rectY;
+    this.inside = inside;
+    if (!inside) {
+      // Set the position to the center of the screen
+      this.rectX = windowWidth / 2 - this.rectW / 2;
+      this.rectY = windowHeight / 2 + 3*this.rectH;
+    } else {
+      this.rectX = rectX;
+      this.rectY = rectY;
+    }
+    
 
     this.type = type;
 
@@ -22,6 +30,8 @@ class Draggable {
   }
 
   draw(draggables) {
+    
+  
     strokeWeight(2.5);
     fill(this.color);
     noStroke();
@@ -42,9 +52,10 @@ class Draggable {
     }
   }
 
-  mouseReleased(timelines) {
+  mouseReleased(draggables,timelines) {
     if (this.dragging) {
       let r = this.detT(timelines);
+      let count = this.countD(draggables);
      
       //timeline para timeline
       if (r[0].type.localeCompare("none") != 0 && this.type.localeCompare("none") != 0 && r[0].sequence[r[2]] == 0) {
@@ -58,6 +69,7 @@ class Draggable {
         this.type = r[0].type;
         r[0].sequence[r[2]] = 1;
         this.current = r[2];
+        this.inside = true;
       }
 
       //fora para timeline
@@ -69,19 +81,43 @@ class Draggable {
         this.type = r[0].type;
         r[0].sequence[r[2]] = 1;
         this.current = r[2];
+        this.inside = true;
       }
 
       //bloqueio
       else if (r[0].type.localeCompare("none") != 0 && r[0].sequence[r[2]] == 1) {
         this.rectX = this.bX;
         this.rectY = this.bY;
+        this.inside = true;
       }
 
-      else if (r[0].type.localeCompare("none") == 0) {
-        this.findTimeline(timelines, this.type).sequence[this.current] = 0;
+      else if (r[0].type == "none") {
+        let timeline = this.findTimeline(timelines, this.type);
+        if (timeline && this.current >= 0 && this.current < timeline.sequence.length) {
+          timeline.sequence[this.current] = 0;
+        }
+      
+        let count = this.countD(draggables);
+        let spacing = 30; 
+        let centerX = windowWidth / 2 - ((count * this.rectW) + ((count - 1) * spacing)) / 2;
+        const totalWidth = count * (this.rectW + spacing); 
+        let startX = windowWidth / 2 - totalWidth / 2 + spacing / 2;
+
+        let outsideDraggables = draggables.filter(draggable => !draggable.inside);
+        outsideDraggables.forEach((draggable, index) => {
+          draggable.rectX = startX + (index * (this.rectW + spacing));
+          draggable.rectY = windowHeight / 2 + 3 * this.rectH;
+        });
+      
+        this.rectX = startX  + (count * (this.rectW + spacing));
+        this.rectY = windowHeight / 2 + 3 * this.rectH;
+        this.inside = false;
         this.type = "none";
-        this.color = [49,49,49]
+        this.color = [49, 49, 49];
+        this.inside = false;
       }
+      
+      
 
     }
     this.check = false;
@@ -94,7 +130,7 @@ class Draggable {
     for (let t of timelines) {
       if (type.localeCompare(t.type) == 0) return t;
     }
-    return "none";
+    return null;
   }
 
   detT(timelines) {
@@ -106,5 +142,17 @@ class Draggable {
       }
     }
     return ([new Timeline("none",[0,0,0,0,0,0,0,0],[]), 0, 0]);
+  }
+
+  countD(draggables) {
+    let count = 0;
+
+    for (let draggable of draggables) {
+      if (!draggable.inside) {
+        count++;
+      }
+    }
+    console.log(count);
+    return count;
   }
 }

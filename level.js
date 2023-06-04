@@ -136,9 +136,6 @@ class Level {
         
         noStroke();
 
-        textSize(32);
-        text("Press E", windowWidth/10, windowHeight/10);
-
         player.jumping = true;
 
         //verificar colisoes e desenhar plataformas fixas
@@ -216,7 +213,7 @@ class Level {
             c.draw();
             if (c.catched && switchDist>=windowHeight) {
                 if(c.createBlock == false) {
-                    this.draggables.push(new Draggable(200, 200, -1, [49,49,49], "none"));
+                    this.draggables.push(new Draggable(200, 200, -1, [49,49,49], "none",false));
                     c.createBlock = true;
                 }
             }
@@ -264,8 +261,7 @@ class Level {
       
     mouseReleased() {
         for(let t of this.timelines){
-            console.log(t.sequence.length);
-            for (let d of this.draggables) d.mouseReleased(this.timelines);
+            for (let d of this.draggables) d.mouseReleased(this.draggables,this.timelines);
         }
       }
     
@@ -287,7 +283,7 @@ class Level {
     createDraggables() {
         for (let t of this.timelines) {
             for (let i = 0; i < t.sequence.length; i++)  {
-                if (t.sequence[i] == 1) this.draggables.push(new Draggable(windowWidth/2+t.w*(i-4), t.y, i, t.color, t.type));
+                if (t.sequence[i] == 1) this.draggables.push(new Draggable(windowWidth/2+t.w*(i-4), t.y, i, t.color, t.type,true));
              }
          }
          console.log(this.draggables);
