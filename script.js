@@ -51,7 +51,6 @@ function setup() {
   light=loadFont('Fonts/Gilroy-Light.otf');
   bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
   cufel=loadFont('Fonts/cufel.otf');
-  
   textFont(cufel);
 
   frameSize = windowWidth/15;
@@ -161,10 +160,12 @@ function keyPressed() {
     }
 
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
+      if (player.drifting_right) player.drifting_right = false;
       player.move = -player.walk;
       leftPressed=1;
     }
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
+      if (player.drifting_left) player.drifting_left = false;
       player.move = player.walk;
       rightPressed=1;
     }
@@ -184,7 +185,7 @@ function keyReleased() {
       if(rightPressed){
         player.move = player.walk;
       }
-      else{player.move = 0;}
+      else{ player.drifting_left = true;}
       
     }
 
@@ -194,7 +195,7 @@ function keyReleased() {
         player.move=-player.walk;
       }
       else{
-      player.move = 0;}
+        player.drifting_right = true;}
     }
     //if (key=='e') switchCheck = false;
     

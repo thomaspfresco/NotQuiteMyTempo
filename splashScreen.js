@@ -25,8 +25,9 @@ class splashScreen {
   
     for (let i = 0; i < this.words.length; i++) {
       let word = this.words[i];
-      stroke(49, 49, 49);
-      strokeWeight(1.5);
+      noStroke();
+      //stroke(49, 49, 49);
+      //strokeWeight(1.5);
       if (i === this.highlight) {
         fill(49, 49, 49); // highlighted
       } else {
@@ -38,7 +39,7 @@ class splashScreen {
       startX += textWidth(word + " ");
     }
   
-    if (frameCount % 60 === 0) {
+    if (frameCount % 60 == 0) {
       this.highlight = (this.highlight + 1) % this.words.length;
     }
     noStroke();

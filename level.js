@@ -13,6 +13,8 @@ class Level {
 
     id; //identificacao
     loopLength; //tempo do loop em milissegundos
+    loopLengthReduce; //tempo do loop reduzido em 20% em milissegundos
+    final_loop;
     instant; //instante atual
     interClock; //tempo entre slots
     nChuncks; //numero de ecra que ocupa o nivel
@@ -24,7 +26,7 @@ class Level {
     eAlpha;
     win; //objeto win
     drag; //bloco de arrasto
-
+    number_of_deaths; //numero de mortes no nivel
     menuX; //pos x do nivel no menu
     sizeMenu; //nivel em destaque no menu
 
@@ -32,12 +34,15 @@ class Level {
         this.id = id;
         this.songName = songName;
         this.loopLength = loopLength;
+        this.loopLengthReduce = this.loopLength + this.loopLength*0.2;
         this.nChuncks = nChuncks;
         this.initX = initX;
         this.initY = initY;
         this.winX = winX;
         this.winY = winY;
-        
+
+        this.final_loop = 0;
+        this.number_of_deaths=0;
         this.instant = 0;
         this.interClock = 0;
         this.activeSlot = 0;
@@ -94,7 +99,7 @@ class Level {
 
                 break;    
             case 2:
-                this.unlocked = true;
+               // this.unlocked = true;
 
                 //timelines
                 this.timelines.push(new Timeline("orange",[0,1,0,0,0,1,0,0],[kick1]));
@@ -169,7 +174,13 @@ class Level {
         }
 
         //avanco timelines
-        if (this.instant - this.interClock >= this.loopLength / 8) {
+
+        if(this.number_of_deaths >= 5){
+            this.final_loop = this.loopLengthReduce;
+        }else{
+            this.final_loop = this.loopLength;
+        }
+        if (this.instant - this.interClock >= this.final_loop / 8) {
             this.interClock = this.instant;
             click.play();
             for (let t of this.timelines) t.canPlay = true;
@@ -241,7 +252,8 @@ class Level {
         this.platforms.push(new Platform(x,y,w,h));
     }
 
-    reset() {
+    reset() {        
+        this.number_of_deaths += 1;
         console.log("reset");
         player.reset(this.initX,this.initY);
         
