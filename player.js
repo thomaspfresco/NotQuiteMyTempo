@@ -1,6 +1,7 @@
 class Player {
     x; y; //pos
     w; h; //tamanho
+    deathX; deathY;
     vel; //velocidade de queda
     move; //distancia esquerda/direita
     walk; //velocidade de movimento
@@ -15,6 +16,8 @@ class Player {
     inc = windowHeight*0.07/947;
     distToDeath = 2*windowHeight;
     dead = false;
+    land = false;
+
 
     constructor(w,h) {
         this.x = 0;
@@ -46,8 +49,16 @@ class Player {
         if (this.jumping) {
             if(this.acc<windowHeight*5/947) this.acc+=this.inc;
             this.vel += (this.acc*this.acc)/2;
+            if (millis()-airTime < 500) this.land = true;
+            print(this.land);
         }
-        else this.acc=windowHeight*1/947;
+        else {
+            this.acc=windowHeight*1/947;
+            if (this.land) {
+                makeParticles(12, this.x+this.w/2, this.y-this.h/2, [84,5,149], false);
+                this.land = false;
+            }
+        }
 
         //add inertia with drifting
         if(this.drifting_left){
@@ -100,6 +111,7 @@ class Player {
     }
 
     reset(initX,initY) {
+        airTime = millis();
         this.x = initX;
         this.y = initY;
         this.dead = false;
@@ -109,9 +121,11 @@ class Player {
 
     death(){
         death.pan(this.panning);
-        if(this.dead == false) death.play();
+        if(this.dead == false) {
+            death.play();
+            makeParticles(10, this.x+this.w/2, this.y+this.h*2.5, [84,5,149], true);
+        }
         this.dead = true;
-       
     }
 
 }

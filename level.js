@@ -78,7 +78,7 @@ class Level {
 
                 break;
             case 1:
-                //this.unlocked = true;
+                this.unlocked = true;
 
                 //timelines
                 this.timelines.push(new Timeline("blue",[0,0,0,0,1,0,0,0],[note1,note2,note3,note4]));

@@ -1,6 +1,7 @@
 let frameSize; //tamanho moldura
 
 let levels = [];
+let particles = [];
 let currentLevel = -1; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
@@ -19,6 +20,8 @@ let play;
 let leftPressed = 0;
 let rightPressed = 0;
 let activeSS;
+
+let airTime = 0;
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -47,7 +50,7 @@ function preload() {
 function setup() {
   frameRate(60);
   createCanvas(windowWidth, windowHeight);
-  activeSS = true;
+  activeSS = false;
   light=loadFont('Fonts/Gilroy-Light.otf');
   bold=loadFont('Fonts/Gilroy-ExtraBold.otf');
   cufel=loadFont('Fonts/cufel.otf');
@@ -120,6 +123,15 @@ function draw() {
     }
   }
 
+  //desenho e gestao de particulas
+  for (i=0; i<particles.length; i++) {
+    var p = particles[i];
+    p.render();
+    p.update();
+  }
+  
+	while(particles.length > 50) particles.shift();
+
   //cursor
   drawCursor();
   fill(0,0,0,blackOpac);
@@ -161,6 +173,7 @@ function keyPressed() {
 
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
       if (player.drifting_right) player.drifting_right = false;
+      if (player.drifting_left) player.drifting_right = false;
       player.move = -player.walk;
       leftPressed=1;
     }
@@ -169,7 +182,10 @@ function keyPressed() {
       player.move = player.walk;
       rightPressed=1;
     }
-    if (key==' ' || key=='w' || key=='ArrowUp' && !player.jumping) player.jump();
+    if (key==' ' || key=='w' || key=='ArrowUp' && !player.jumping) {
+      player.jump();
+      airTime = millis();
+    }
     //if (key=='e') switchCheck = true;
   }
 }
@@ -272,4 +288,64 @@ function switchToBlack() {
     }
     else blackOpac-=9;
   } 
+}
+
+function makeParticles(pcount, mx, my, cor, dying) {
+  //print("make particles " + pcount);
+ for(var i=0; i<pcount;i++) {
+   var p = new Particle(mx, my, cor,dying);
+   
+   var angle = PI + random(-PI/2,PI/2);
+   var speed;
+   if (dying) speed = random(10,15);
+   else speed = random(4,10);
+   
+   p.velX = sin(angle)*speed;
+   p.velY = cos(angle)*speed;
+   
+   //p.s = random(8,18);
+   
+   particles.push(p);
+ }
+}
+
+function Particle(x,y, cor, dying) {
+  this.posX = x; 
+	this.posY = y; 
+	this.velX = 0; 
+	this.velY = 0; 
+
+  this.dying = dying;
+
+  if(dying) this.shrink = .95; 
+	else this.shrink = .82; 
+
+  if(dying) this.s = windowHeight/35;
+	else this.s = windowHeight/22; 	
+	this.drag = 0.9; 
+  this.alpha = 255;
+	this.gravity = 0.3; 
+  if(dying) this.fade = 0;
+	else this.fade = 5;
+  this.cor = cor;
+  
+   this.update = function() {
+     this.velX *= this.drag; 
+     this.velY *= this.drag;
+
+     this.velY += this.gravity; 
+
+     this.posX += this.velX;
+     this.posY += this.velY; 
+
+     this.s *= this.shrink;
+     this.alpha -= this.fade; 	 
+    };
+  
+    this.render = function() {
+      fill(cor[0],cor[1],cor[2],this.alpha);
+      //rect(this.posX, this.posY, this.size,this.size);
+      if (this.dying) rect(this.posX+switchDist, this.posY+switchDist-200, this.s,this.s);
+      else circle(this.posX+switchDist, this.posY+switchDist, this.s);
+	};   
 }
