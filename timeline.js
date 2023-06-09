@@ -20,9 +20,9 @@ class Timeline {
         this.y = 0;
         this.sounds = sounds;
 
-        if (type == "blue") this.color = [0,0,255];
-        else if (type == "red") this.color = [255,0,0];
-        else if (type == "orange") this.color = [255,128,0];
+        if (type == "blue") this.color = cBlue;
+        else if (type == "red") this.color = cRed;
+        else if (type == "orange") this.color = cOrange;
     }
 
     draw(current) {

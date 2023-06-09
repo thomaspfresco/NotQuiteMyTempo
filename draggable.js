@@ -70,7 +70,7 @@ class Draggable {
     if (this.dragging) {
       let r = this.detT(timelines);
       let count = this.countD(draggables);
-      console.log(count);
+      //console.log(count);
       //timeline para timeline
       if (
         r[0].type.localeCompare("none") != 0 &&
@@ -136,16 +136,18 @@ class Draggable {
           draggable.rectY = windowHeight / 2 + 3 * this.rectH;
         });
   
-        this.rectX = startX + count * (this.rectW + spacing);
-        this.rectY = windowHeight / 2 + 3 * this.rectH;
+        //this.rectX = startX + count * (this.rectW + spacing);
+        //this.rectY = windowHeight / 2 + 3 * this.rectH;
         this.inside = false;
         this.type = "none";
-        this.color = [49, 49, 49];
+        this.color = cHighlight;
         this.inside = false;
       }
       let outsideDraggables = draggables.filter(
         (draggable) => !draggable.inside
       );
+
+      count = this.countD(outsideDraggables);
    
       let spacing = 30;
       const totalWidth = count * (this.rectW + spacing);

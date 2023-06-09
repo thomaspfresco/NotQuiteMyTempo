@@ -2,6 +2,7 @@ class BlueBlock {
   x; y; w; h;
   active;
   color;
+  alphaBlue = 50;
 
   margin; //margem de tolerância
 
@@ -18,12 +19,15 @@ class BlueBlock {
   draw() {
     if (this.active) {
         noStroke();
-        fill(0,0,250);
+        this.alphaBlue = 255;
+        fill(cBlue[0],cBlue[1],cBlue[2],this.alphaBlue);
     }
     else {
-        stroke(0,0,250);
-        strokeWeight(2); 
-        noFill();
+        if (this.alphaBlue > 50) this.alphaBlue -= 15;
+        noStroke();
+        fill(cBlue[0],cBlue[1],cBlue[2],this.alphaBlue);
+        //strokeWeight(2); 
+        //noFill();
     }
     rect(this.x, this.y+switchDist, this.w, this.h);
   }

@@ -18,10 +18,10 @@ class DamageBlock {
     draw() {
       if (this.active) {
           noStroke();
-          fill(255, 0, 0);
+          fill(cRed);
       }
       else {
-          stroke(255, 0, 0);
+          stroke(cRed);
           strokeWeight(2); 
           noFill();
       }

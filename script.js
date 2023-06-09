@@ -23,6 +23,23 @@ let activeSS;
 
 let airTime = 0;
 
+//cores
+c1 = [180,180,180];
+c2 = [39,39,39];
+cBackground = c1;
+cHighlight = [180,180,180];
+
+cBlue = [21,114,161];
+cRed = [202,62,71];
+cOrange = [255,172,65];
+//cPlayer = [118,81,141];
+cPlayer = [210, 83, 128];
+cCollect = [255,172,65];
+//cCollect = cHighlight;
+//cWin = [0,165,0];
+cWin = [118, 81, 141];
+cCursor = [217,217,217];
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -36,6 +53,10 @@ function preload() {
   note2 = loadSound("Sounds/note2.mp3");
   note3 = loadSound("Sounds/note3.mp3");
   note4 = loadSound("Sounds/note4.mp3");
+
+  switchSound = loadSound("Sounds/switch.mp3");
+  landSound = loadSound("Sounds/land.mp3");
+  spawnSound = loadSound("Sounds/spawn.mp3");
 
   win = loadSound("Sounds/win.mp3");
   collect = loadSound("Sounds/collect.mp3");
@@ -72,6 +93,11 @@ function setup() {
   click.setVolume(0.2);
   win.setVolume(0.2);
   impulse.setVolume(0.1);
+
+  switchSound.setVolume(0.2);
+  landSound.setVolume(0.1);
+
+  spawnSound.setVolume(0.2);
   
   menuMusic.loop();
   ambient.loop();
@@ -84,7 +110,7 @@ function draw() {
   
   //menuMusic.setVolume(0.3-map(blackOpac,0,255,0,0.3));
 
-  background(217,217,217);
+  background(cBackground);
 
   switchToBlack();
 
@@ -161,6 +187,7 @@ function keyPressed() {
     if (key=='e' || key==' ' || key=="Enter") {
       currentLevel = menu.selected;
       levels[currentLevel].eTimer = millis();
+      levels[currentLevel].number_of_deaths = 0;
       levels[currentLevel].reset();
       switchBlack = true;
     }
@@ -172,13 +199,14 @@ function keyPressed() {
     }
 
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
-      if (player.drifting_right) player.drifting_right = false;
-      if (player.drifting_left) player.drifting_right = false;
+      player.drifting_right = false;
+      player.drifting_left = false;
       player.move = -player.walk;
       leftPressed=1;
     }
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
-      if (player.drifting_left) player.drifting_left = false;
+      player.drifting_left = false;
+      player.drifting_right = false;
       player.move = player.walk;
       rightPressed=1;
     }
@@ -216,7 +244,10 @@ function keyReleased() {
     //if (key=='e') switchCheck = false;
     
   }
-  if (key=='e') switchCheck = !switchCheck;
+  if (key=='e') {
+    switchCheck = !switchCheck;
+    switchSound.play();
+  }
 }
 
 function drawCursor() {
@@ -280,6 +311,8 @@ function switchToBlack() {
 
   else if (millis() - timerBlack > 1000) {
     auxBlack = true;
+    if (currentLevel != -1 && currentLevel != -2) cBackground = c2;
+    else cBackground = c1;
   }
 
   if (auxBlack) {

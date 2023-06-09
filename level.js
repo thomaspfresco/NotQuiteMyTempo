@@ -34,7 +34,7 @@ class Level {
         this.id = id;
         this.songName = songName;
         this.loopLength = loopLength;
-        this.loopLengthReduce = this.loopLength + this.loopLength*0.2;
+        this.loopLengthReduce = this.loopLength + this.loopLength*0.3;
         this.nChuncks = nChuncks;
         this.initX = initX;
         this.initY = initY;
@@ -183,6 +183,7 @@ class Level {
         if (this.instant - this.interClock >= this.final_loop / 8) {
             this.interClock = this.instant;
             click.play();
+            this.win.pulse();
             for (let t of this.timelines) t.canPlay = true;
             if (this.activeSlot < 8 - 1) this.activeSlot += 1;
             else this.activeSlot = 0;
@@ -192,8 +193,8 @@ class Level {
         for (let db of this.damageBlocks){
             db.draw();
             if (db.collide(player)) {
-                player.jumping = false;
-                player.y = windowHeight+player.h;
+                //player.jumping = false;
+                player.y = windowHeight+player.h*2;
             }     
         }
 
@@ -224,7 +225,7 @@ class Level {
             c.draw();
             if (c.catched && switchDist>=windowHeight) {
                 if(c.createBlock == false) {
-                    this.draggables.push(new Draggable(200, 200, -1, [49,49,49], "none",false));
+                    this.draggables.push(new Draggable(200, 200, -1, cHighlight, "none",false));
                     c.createBlock = true;
                 }
             }
@@ -257,7 +258,6 @@ class Level {
         console.log("reset");
         player.reset(this.initX,this.initY);
         
-
         this.draggables = [];
         
         for (let t of this.timelines) t.reset();

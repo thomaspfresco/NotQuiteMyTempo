@@ -14,7 +14,7 @@ class Platform {
   
   draw() {
     noStroke();
-    fill(49,49,49);
+    fill(cHighlight);
     rect(this.x, this.y+switchDist, this.w, this.h);
   }
     
