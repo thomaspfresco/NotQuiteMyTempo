@@ -4,13 +4,18 @@ class Draggable {
   type;
   current;
   inside;
+  playPick = false;
+  locked;
+  lockerSize = 0;
 
-  constructor(rectX, rectY, current, color, type, inside) {
+  constructor(rectX, rectY, current, color, type, inside, locked) {
     this.rectW = windowWidth / 10;
-    this.rectH = windowHeight / 25;
+    this.rectH = windowHeight / 20;
     this.rectX = rectX;
     this.rectY = rectY;
     this.inside = inside;
+    this.locked = locked;
+
     if (!inside) {
       // centro do ecra em baixo da timeline
       this.rectX = windowWidth / 2 - this.rectW / 2;
@@ -36,25 +41,35 @@ class Draggable {
   }
 
   draw(draggables) {
+
+    if (this.lockerSize-0.5 < 0) this.lockerSize = 0;
+    else this.lockerSize -= 0.5;
+
     strokeWeight(2.5);
     fill(this.color);
     noStroke();
-    rect(
-      this.rectX,
-      this.rectY + switchDist - windowHeight,
-      this.rectW,
-      this.rectH
-    );
+    if (this.inside == false || this.dragging) rect(this.rectX,this.rectY + switchDist - windowHeight,this.rectW,this.rectH);
 
     if (
       mouseX > this.rectX &&
       mouseX < this.rectX + this.rectW &&
       mouseY > this.rectY &&
       mouseY < this.rectY + this.rectH &&
-      mouseIsPressed
+      mouseIsPressed && 
+      this.locked == false &&
+      this.checkDrag(draggables) == false
     ) {
       for (let d of draggables) d.check = false;
+      if (this.playPick) {
+        this.playPick = false;
+        pick.play();
+      }
       this.check = true;
+    }
+
+    if (this.locked) {
+      imageMode(CENTER);
+      image(locker,this.rectX+this.rectW/2,this.rectY-windowHeight+switchDist+this.rectH/2,locker.width*15/windowHeight+this.lockerSize,locker.height*15/windowHeight+this.lockerSize);
     }
   }
 
@@ -67,7 +82,11 @@ class Draggable {
   }
 
   mouseReleased(draggables, timelines) {
+
+    drop.play();
+
     if (this.dragging) {
+      
       let r = this.detT(timelines);
       let count = this.countD(draggables);
       //console.log(count);
@@ -186,4 +205,15 @@ class Draggable {
     }
     return [new Timeline("none", [0, 0, 0, 0, 0, 0, 0, 0], []), 0, 0];
   }
+
+  pop(activeSlot) {
+    if (activeSlot == this.current) this.lockerSize = windowHeight/100;
+  }
+
+  checkDrag(draggables) {
+    for(let d of draggables) if (d.check) return true;
+    return false;
+  }
 }
+
+

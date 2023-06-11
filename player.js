@@ -1,5 +1,9 @@
 class Player {
+
+
     x; y; //pos
+    lastX; lastY; //ultima posicao
+    inst = 0; //instante atual
     w; h; //tamanho
     deathX; deathY;
     vel; //velocidade de queda
@@ -8,12 +12,17 @@ class Player {
     jumping; //bool de controlo de salto e colisao
     drifting_left;
     drifting_right;
-    decrement = 0.4;
-    impulsePower = windowHeight/10;
+    decrement;
+    impulsePower = windowHeight/5;
     jumpSounds = [loadSound("Sounds/jump1.mp3"),loadSound("Sounds/jump2.mp3"),loadSound("Sounds/jump3.mp3"),loadSound("Sounds/jump4.mp3")];
     panning = 0.5;
-    acc = windowHeight*1/947;
-    inc = windowHeight*0.07/947;
+
+    myHeight;
+    myWidth;
+    ratioHeight;
+    ratioWidth;
+    acc = 1;
+    inc = 0.07;
     distToDeath = 2*windowHeight;
     dead = false;
     land = false;
@@ -21,26 +30,38 @@ class Player {
     start = false;
     startTimer = 0;
 
+    counterLand = 0;
+
     constructor(w,h) {
         this.x = 0;
         this.y = 0;
+        this.lastX = 0;
+        this.lastY = 0;
+        this.myHeight = 947;
+        this.myWidth = 1920;
+        this.ratioHeight = windowHeight/this.myHeight;
+        this.ratioWidth = windowWidth/this.myWidth;
         this.refW = w;
         this.refH = h;
         this.w = w;
         this.h = h;
         this.vel = 0;
-        this.up = (windowHeight*90)/947;
+        this.up = 90;
         this.move = 0;
-        this.walk = windowWidth*6/1920 + (windowHeight/947-1)*windowWidth/windowHeight*(-1);
+        this.walk = 6;
         this.jumping = true;
         this.drifting_left = false;
         this.drifting_right = false;
+        this.decrement = this.walk/15;
     }
 
     draw() {
         //fill(84,5,149);
         fill(cPlayer);
         noStroke();
+
+        //print(this.x,this.lastX);
+        //print(this.y,this.lastY);
         //rect(this.x, this.y-this.h+switchDist, this.w, this.h,5);
 
         if (this.start) {
@@ -50,10 +71,28 @@ class Player {
             this.rotation = 0;
             this.startTimer = millis();
             this.start = false;
+            if(this.ratioHeight > 1){
+                this.ratioHeight = this.ratioHeight -this.ratioHeight/3;
+            }else if(this.ratioHeight < 1){
+                this.ratioHeight = this.ratioHeight +this.ratioHeight/3;
+            }
+    
+            if(this.ratioWidth > 1){
+                this.ratioWidth = this.ratioWidth - this.ratioWidth/2;
+            }else if(this.ratioWidth < 1){
+                this.ratioWidth = this.ratioWidth +this.ratioWidth/2;
+            }
+    
+            this.up = this.up*this.ratioHeight;
+            this.walk = this.walk*this.ratioWidth;
+
         }
 
-        if (millis() - this.startTimer < 350) {
+        if (millis() - this.startTimer < 500) {
             this.vel = 0;
+            //this.move = 0;
+            this.drifting_left = false;
+            this.drifting_right = false;
             if (this.rotation + 0.2 > PI) this.rotation = PI;
             else this.rotation += 0.2;
             if (this.h + 5 > this.refH) {
@@ -82,7 +121,7 @@ class Player {
         pop();
         
          // player movement
-         this.vel *= windowHeight*0.8/947;
+        this.vel *= 0.8*this.ratioHeight;
          this.y += this.vel;
          this.x += this.move;
 
@@ -90,6 +129,8 @@ class Player {
 
         // player velocity
         if (this.jumping) {
+            
+            if (round(this.y) != round(this.lastY)) {
             if (this.move < 0) {
                 if (this.rotation - 0.08 < -PI/2) this.rotation = -PI/2;
                 else this.rotation -= 0.08;
@@ -98,14 +139,16 @@ class Player {
                 if (this.rotation + 0.08 > PI/2) this.rotation = PI/2;
                 else this.rotation += 0.08;
             }
-            if(this.acc<windowHeight*5/947) this.acc+=this.inc;
-            this.vel += (this.acc*this.acc)/2;
-            if (millis()-airTime < 500) this.land = true;
+
+            this.land = true;
+            }
             //print(this.land);
+            if(this.acc<windowHeight/15) this.acc+=this.inc;
+            this.vel += (this.acc*this.acc)/2;
         }
         else {
             this.rotation = 0;
-            this.acc=windowHeight*1/947;
+            this.acc=1.6*this.ratioHeight;
             if (this.land) {
                 makeParticles(12, this.x+this.w/2, this.y-this.h/2, cPlayer, false);
                 this.land = false;
@@ -154,16 +197,17 @@ class Player {
             }
         }
     }
+
+    this.lastX = this.x;
+    this.lastY = this.y;
     }
 
     jump(){
         if (!this.jumping) {
-        this.vel -= windowHeight/25;
-
-        
+        this.vel -= windowHeight/16;
         let aux = int(random(0,4));
         this.jumpSounds[aux].pan(this.panning);
-        this.jumpSounds[aux].setVolume(0.2);
+        this.jumpSounds[aux].setVolume(0.3);
         this.jumpSounds[aux].play();
         //jumpSound.pan(this.panning);
         }
@@ -179,21 +223,24 @@ class Player {
         this.x = initX;
         this.y = initY;
         this.dead = false;
-        this.acc=windowHeight*1/947;
+        this.acc=1.6*this.ratioHeight;
         this.vel = 0;
         this.rotation = 0;
         this.h = 0;
         this.w = 0;
         this.startTimer = millis();
+        this.drifting_left = false;
+        this.drifting_right = false;
         //spawnSound.pan(this.panning);
-        spawnSound.play();
+        if (this.counterLand == 1) spawnSound.play();
+        else this.counterLand = 1;
     }
 
     death(){
         if(this.dead == false) {
             death.pan(this.panning);
             death.play();
-            makeParticles(15, this.deathX+this.w/2, this.deathY+this.h*2.5, cPlayer, true);
+            makeParticles(15, this.deathX+this.w/2, this.deathY+this.h*3.5, cPlayer, true);
         }
         this.dead = true;
     }

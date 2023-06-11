@@ -2,6 +2,7 @@ class DamageBlock {
     x; y; w; h;
     active;
     color;
+    alphaRed = 50;
   
     margin; //margem de tolerância
   
@@ -17,13 +18,14 @@ class DamageBlock {
   
     draw() {
       if (this.active) {
-          noStroke();
-          fill(cRed);
+        noStroke();
+        this.alphaRed = 255;
+        fill(cRed[0],cRed[1],cRed[2],this.alphaRed);
       }
       else {
-          stroke(cRed);
-          strokeWeight(2); 
-          noFill();
+        if (this.alphaRed > 50) this.alphaRed -= 15;
+        noStroke();
+        fill(cRed[0],cRed[1],cRed[2],this.alphaRed);
       }
       rect(this.x, this.y+switchDist, this.w, this.h);
     }
@@ -32,9 +34,12 @@ class DamageBlock {
 
       //console.log("p.y",p.y );
       if (((p.x >this.x && p.x < this.x +this.w ) || (p.x+p.w < this.x+this.w && p.x+p.w > this.x )) && p.y > this.y && p.y < this.y + this.h && this.active) {
-          
           return true;
         }
+      //bloco no interior do player
+      else if (this.x > p.x && this.x +this.w < p.x+p.w && this.y < p.y && this.y+this.h>p.y && this.active) {
+        return true;
+      }
       else {
         return false;
       }

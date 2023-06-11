@@ -7,6 +7,9 @@ class Menu {
 
     auxLevels;
 
+    osc = windowHeight/150;
+    counter = 0;
+
     velocity;
 
     constructor() {
@@ -31,6 +34,8 @@ class Menu {
         //update nivel em destaque
         if (currentLevel == -1 || currentLevel == -2) {
 
+            this.counter+=0.04;
+
             //nivel novo desbloqueado
             if (currentLevel == -2) {
                 levels[this.selected+1].unlocked = true;
@@ -43,19 +48,28 @@ class Menu {
                 
                 if (l.unlocked) fill(49,49,49,255);
                 else fill(49,49,49,100);
-                
-                rect(l.menuX-l.sizeMenu/2, windowHeight/2-l.sizeMenu/2,l.sizeMenu,l.sizeMenu);
+                if (l.completed) {
+                    stroke(cWin);
+                    strokeWeight(windowHeight/40);
+                } else noStroke();
 
+                if (l.id == this.selected) rect(l.menuX-l.sizeMenu/2, windowHeight/2-l.sizeMenu/2+sin(this.counter)*this.osc,l.sizeMenu,l.sizeMenu);
+                else rect(l.menuX-l.sizeMenu/2, windowHeight/2-l.sizeMenu/2,l.sizeMenu,l.sizeMenu);
+                
+                noStroke();
                 textFont(cufel);
                 textSize(l.sizeMenu/12);
-                textAlign(RIGHT,CENTER);
-                text(l.id+1+". "+l.songName, l.menuX+l.sizeMenu/25,windowHeight/2 + l.sizeMenu/1.8);
+                textAlign(CENTER,CENTER);
+                //text(l.id+1+". "+l.songName, l.menuX+l.sizeMenu/25,windowHeight/2 + l.sizeMenu/1.8+sin(this.counter)*this.osc);
+                if (l.id == this.selected) text(l.songName, l.menuX,windowHeight/2 + l.sizeMenu/1.8+sin(this.counter)*this.osc);
+                else text(l.songName, l.menuX,windowHeight/2 + l.sizeMenu/1.8);
+
                 
                 //assinalar nivel concluido
-                if (l.completed) {
+                /*if (l.completed) {
                     fill(0,150,0,255);
-                    circle(l.menuX, windowHeight/2,l.sizeMenu/4);
-                }
+                    circle(l.menuX, windowHeight/2+sin(this.counter)*this.osc,l.sizeMenu/4);
+                }*/
             }
 
             //escolher nivel
@@ -64,7 +78,9 @@ class Menu {
                 mouseIsPressed = false;
                 currentLevel = this.selected;
                 levels[currentLevel].reset();
+                c = [0,0,0];
                 switchBlack = true;
+                select.play();
             }
 
             //movimentar com o rato
@@ -82,6 +98,7 @@ class Menu {
             levels[this.selected].win.winner = false;
             this.upDown = 1;
             this.auxLevels = clone(levels);
+            if (currentLevel != -2) move.play();
            }
         }
     }
@@ -92,6 +109,7 @@ class Menu {
             levels[this.selected].win.winner = false;
             this.upDown = -1;
             this.auxLevels = clone(levels);
+            if (currentLevel != -2) move.play();
         }
     }
 
