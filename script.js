@@ -170,6 +170,7 @@ function draw() {
   }
 
   else if (currentLevel == -4) {
+    print("f");
     finalTextAlpha+=2;
     fill(c2[0],c2[1],c2[2],finalTextAlpha);
     textSize(windowHeight / 20);
@@ -298,7 +299,7 @@ function keyPressed() {
     }
   }
   else if (currentLevel >= 0 && levels[currentLevel].win.winner == false){
-    if (key == "Escape") {
+    if (key == "Enter") {
       if (tutorial > 15) {
       select.play();
       currentLevel = -1;

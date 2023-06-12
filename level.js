@@ -49,9 +49,11 @@ class Level {
         this.tutorialAlpha = 0;
 
         this.completed = false;
+
+        //this.completed = true;
         //this.unlocked = true;
 
-        //if (this.id ==9) this.completed = false;
+        //if (this.id == 9) this.completed = false;
     
         this.win = new Win(winX,winY);
         player.x = this.initX;
@@ -498,13 +500,20 @@ class Level {
         }
 
         if (this.win.end) {
-            this.completed = true;
+            if (currentLevel+1 < levels.length) {
+                if (this.completed && levels[currentLevel+1].completed == false) currentLevel = -1;
+                else if (this.completed == false) {
+                    this.completed = true;
+                    levels[currentLevel+1].unlocked = true;
+                    currentLevel = -2;
+                }
+            }
+            else this.completed = true;
+
             if (allCompleted() && this.id == levels.length - 1) {
                 currentLevel = -4;
                 switchBlack = true;
             }
-            else if (this.completed && levels[currentLevel+1].completed == false) currentLevel = -1;
-            else currentLevel = -2;
         }
 
 
@@ -603,7 +612,7 @@ class Level {
                 text("",windowWidth/2,windowHeight-windowHeight/10);
             break;
             case 17:
-                text("Enjoy the game. Press Esc anytime to leave.",windowWidth/2,windowHeight-windowHeight/10);
+                text("Enjoy the game. Press Enter anytime to leave.",windowWidth/2,windowHeight-windowHeight/10);
             break;
             case 18:
                 text("",windowWidth/2,windowHeight-windowHeight/10);
