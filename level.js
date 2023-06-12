@@ -328,9 +328,9 @@ class Level {
                     //plataforma
                     this.timelines.push(new Timeline("blue",[1,0,0,0,0,1,0,1],[note1,note2,note3,note4]));
                     //dano
-                    this.timelines.push(new Timeline("red",[0,1,0,0,0,0,1,0],[snare]));
+                    this.timelines.push(new Timeline("red",[0,1,0,1,0,1,0,0],[snare]));
                     //impulso
-                    this.timelines.push(new Timeline("impulse",[0,1,0,0,0,0,0,0],[kick1]));
+                    this.timelines.push(new Timeline("impulse",[0,0,0,0,0,0,0,0],[kick1]));
                     
     
                     //posição relativa das timelines
@@ -340,31 +340,31 @@ class Level {
                     this.createDraggables();
     
                     //plataforma de começo
-                    this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth / 15, windowHeight / 2 + windowHeight / 4, windowWidth / 9, windowHeight / 35));
-                    this.blueBlocks.push(new BlueBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 15, windowHeight / 2 + windowHeight / 4 - windowHeight / 6, windowWidth / 9, windowHeight / 35));
+                    //this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth / 8.5, windowHeight / 2 + windowHeight / 4, windowWidth / 9, windowHeight / 35));
+                    this.blueBlocks.push(new BlueBlock(windowWidth / 3 - windowWidth / 7- windowWidth / 8.5, windowHeight/1.2, windowWidth / 9, windowHeight / 35));
                     //plataforma de começo
                     
                 
                     //plataforma suporte a de impulso
-                    this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/16,windowHeight/1.2,windowWidth/12,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12,windowHeight/1.2,windowWidth/12,windowHeight/35));
                     //primeiro bloco de impulso
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/16+windowWidth/12,windowHeight/1.2,windowWidth/18,windowHeight/35,windowHeight/6));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12+windowWidth/12,windowHeight/1.2,windowWidth/18,windowHeight/35,windowHeight/6));
 
                     // segundo(smaller and further away)
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30, windowHeight /1.2, windowWidth / 18, windowHeight / 35,windowHeight/6));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/10+windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30, windowHeight /1.2, windowWidth / 18, windowHeight / 35,windowHeight/4));
                     //sugunda plataforma de suporte
-                    this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30+windowWidth / 18,windowHeight/1.2,windowWidth/12,windowHeight/35));
+                    this.platforms.push(new Platform(-windowWidth / 18 + windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30+windowWidth / 18,windowHeight/1.2,windowWidth/10,windowHeight/35));
                     
                     //red block between those 2
-                    this.damageBlocks.push(new DamageBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10 - windowWidth / 16 + windowWidth / 12 + windowWidth / 18 + windowWidth / 30, windowHeight / 2.8, windowHeight / 35, windowHeight / 4));
+                    this.damageBlocks.push(new DamageBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10 - windowWidth / 16 + windowWidth / 12 + windowWidth / 18 + windowWidth / 55, windowHeight / 2.8, windowHeight / 35, windowHeight / 4));
     
                     //collectable on top of the first blue platform
-                    this.collectables.push(new Collectable(windowWidth / 3 - windowWidth / 7 - windowWidth / 15, windowHeight / 2 + windowHeight / 4 - windowHeight / 3, windowWidth / 9, windowHeight / 35));
-                    this.platforms.push(new Platform(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 - windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 8 + windowWidth / 8,windowHeight/1.2,windowWidth/9,windowHeight/35));
+                    this.collectables.push(new Collectable(windowWidth/4.4-windowWidth/20-windowWidth/21, windowHeight/1.3));
+                    this.platforms.push(new Platform(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 - windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 4.5,windowHeight/1.2,windowWidth/7,windowHeight/35));
                     //last blue plataform
-                    this.blueBlocks.push(new BlueBlock(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 -windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 8, windowHeight / 1.2, windowWidth / 10, windowHeight / 35));
+                   // this.blueBlocks.push(new BlueBlock(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 -windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 8, windowHeight / 1.2, windowWidth / 10, windowHeight / 35));
 
-                    this.win = new Win(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 - windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 8 + windowWidth / 8+windowWidth / 9/2,windowHeight/1.3);
+                    //this.win = new Win(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 - windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 8 + windowWidth / 8+windowWidth / 9/2,windowHeight/1.3);
                     break;
                 
                 default:

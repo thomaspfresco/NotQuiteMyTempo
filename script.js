@@ -2,7 +2,7 @@ let frameSize; //tamanho moldura
 
 let levels = [];
 let particles = [];
-let currentLevel = -5; //nivel atual, -1 se for o menu
+let currentLevel = 9; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
 let switchDist = 0; //valor total a subtrair
@@ -22,8 +22,8 @@ let rightPressed = 0;
 
 let airTime = 0;
 
-let tutorial = 0;
-let tutorial2 = 0;
+let tutorial = 20;
+let tutorial2 = 20;
 let tutorialTimer = 0;
 
 //cores
@@ -108,7 +108,7 @@ function setup() {
   levels.push(new Level(6,"allegretto",8000,1,windowWidth/4.4-windowWidth/15-windowWidth/15,windowHeight/1.5 ,windowWidth -windowWidth/15-windowWidth/15,windowHeight/1.5));
   levels.push(new Level(7,"allegro",6500,1,windowWidth/4.4-windowWidth/8.5,windowHeight/1.5,windowWidth/4.4-windowWidth/15-windowWidth/28,windowHeight/4));
   levels.push(new Level(8,"vivace",5000,1,windowWidth/4.4-windowWidth/15-windowWidth/12,windowHeight/1.5 ,windowWidth-windowWidth/15-windowWidth/13,windowHeight/4));
-  levels.push(new Level(9,"presto",3000,1,windowWidth/4.4-windowWidth/15-windowWidth/15,windowHeight/1.5 ,windowWidth -windowWidth/15-windowWidth/15,windowHeight/1.5));
+  levels.push(new Level(9,"presto",3000,1,windowWidth/3.6,windowHeight/1.5 ,windowWidth -windowWidth/15-windowWidth/15,windowHeight/1.3));
 
   //levels.push(new Level(6,"Level 7",8000,1,windowWidth/4.4-windowWidth/15,windowHeight/3 ,windowWidth/4.4-windowWidth/15,windowHeight/2));
 
