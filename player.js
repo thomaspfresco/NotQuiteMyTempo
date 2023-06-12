@@ -115,7 +115,9 @@ class Player {
         else {
         push();
         translate(this.x+this.w/2, this.y-this.h+switchDist+this.h/2);
-        if(millis()- this.timerJump>100)rotate(this.rotation);
+        if (this.jumping && millis()- this.timerJump>20) {
+            rotate(this.rotation);
+        }
         translate(-this.w/2, -this.h/2);
         rect(0, 0, this.w, this.h);
         pop();
