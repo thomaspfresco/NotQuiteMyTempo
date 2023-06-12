@@ -25,13 +25,13 @@ class Timeline {
 
         if (type == "blue") this.color = cBlue;
         else if (type == "red") this.color = cRed;
-        else if (type == "orange") this.color = cImpulse;
+        else if (type == "impulse") this.color = cImpulse;
     }
 
     draw(current) {
 
         stroke(cBackground);
-        strokeWeight(this.strokes[i]);
+        strokeWeight(this.strokes[0]);
 
         this.strokes[current] = windowHeight/500;
 

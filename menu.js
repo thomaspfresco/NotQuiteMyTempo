@@ -46,16 +46,28 @@ class Menu {
             for (let l of levels) {
                 noStroke();
                 
-                if (l.unlocked) fill(49,49,49,255);
+                if (l.completed) fill(cPlayer);
+                else if (l.unlocked) fill(49,49,49,255);
                 else fill(49,49,49,100);
-                if (l.completed) {
-                    stroke(cWin);
-                    strokeWeight(windowHeight/40);
-                } else noStroke();
+                noStroke();
 
                 if (l.id == this.selected) rect(l.menuX-l.sizeMenu/2, windowHeight/2-l.sizeMenu/2+sin(this.counter)*this.osc,l.sizeMenu,l.sizeMenu);
                 else rect(l.menuX-l.sizeMenu/2, windowHeight/2-l.sizeMenu/2,l.sizeMenu,l.sizeMenu);
                 
+                fill(230,230,230);
+                noStroke();
+                textFont(cufel);
+                textSize(l.sizeMenu);
+                textAlign(CENTER,CENTER);
+
+                //if (l.id+1 < 10) aux = '0'+(l.id+1);
+                //else aux = l.id+1;
+                let aux = l.id+1;
+                if (l.id == this.selected) text(aux, l.menuX,windowHeight/2.55 +sin(this.counter)*this.osc);
+                else text(aux, l.menuX,windowHeight/2.5);
+                
+                if (l.unlocked) fill(49,49,49,255);
+                else fill(49,49,49,100);
                 noStroke();
                 textFont(cufel);
                 textSize(l.sizeMenu/12);

@@ -3,17 +3,20 @@ class ImpulseBlock {
   active;
   color;
   alphaImpulse = 50;
-  alphaCircle = 255;
+  alphaCircle = 0;
   sizeCircle;
+  impulsePower;
 
   margin; //margem de tolerância
 
-  constructor(x,y,w,h) {
+  constructor(x,y,w,h,impulsePower) {
     this.active = false;
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+
+    this.impulsePower = impulsePower;
 
     this.sizeCircle = this.w/2;
 
@@ -41,11 +44,17 @@ class ImpulseBlock {
   }
 
   collide(p) {
-''
     //console.log("p.y",p.y );
     if (((p.x >this.x && p.x < this.x +this.w ) || (p.x+p.w < this.x+this.w && p.x+p.w > this.x )) && p.y > this.y && p.y < this.y + this.h && this.active) {
         this.sizeCircle = this.w/2;
         this.alphaCircle = 255;
+        player.impulse(this.impulsePower);
+        if (currentLevel == 3) {
+          if (tutorial == 15) {
+            tutorial = 16;
+            tutorialTimer = millis();
+          }
+        }
         return true;
       }
     else {

@@ -27,6 +27,13 @@ class splashScreen {
 
   draw() {
 
+    textFont(light);
+    textSize(windowHeight / 50);
+    noStroke();
+    fill(c2);
+    text("Press enter to continue", windowWidth/2-textWidth("Press enter to continue")/2, windowHeight-windowHeight/20);
+
+
     textFont(cufel);
     textSize(windowHeight / 10);
     noStroke();

@@ -4,7 +4,7 @@ class Draggable {
   type;
   current;
   inside;
-  playPick = false;
+  playPick = true;
   locked;
   lockerSize = 0;
 
@@ -50,7 +50,18 @@ class Draggable {
     noStroke();
     if (this.inside == false || this.dragging) rect(this.rectX,this.rectY + switchDist - windowHeight,this.rectW,this.rectH);
 
-    if (
+    if (mouseX > this.rectX &&
+      mouseX < this.rectX + this.rectW &&
+      mouseY > this.rectY &&
+      mouseY < this.rectY + this.rectH &&
+      mouseIsPressed && this.locked) {
+      if (this.playPick) {
+        this.playPick = false;
+        pick.play();
+        this.lockerSize = windowHeight/100;
+      }
+    }
+    else if (
       mouseX > this.rectX &&
       mouseX < this.rectX + this.rectW &&
       mouseY > this.rectY &&
@@ -60,13 +71,9 @@ class Draggable {
       this.checkDrag(draggables) == false
     ) {
       for (let d of draggables) d.check = false;
-      if (this.playPick) {
-        this.playPick = false;
-        pick.play();
-      }
       this.check = true;
     }
-
+  
     if (this.locked) {
       imageMode(CENTER);
       image(locker,this.rectX+this.rectW/2,this.rectY-windowHeight+switchDist+this.rectH/2,locker.width*15/windowHeight+this.lockerSize,locker.height*15/windowHeight+this.lockerSize);
@@ -82,33 +89,42 @@ class Draggable {
   }
 
   mouseReleased(draggables, timelines) {
-
-    drop.play();
-
+    //drop.play();
+    this.playPick = true;
+  
     if (this.dragging) {
-      
       let r = this.detT(timelines);
       let count = this.countD(draggables);
-      //console.log(count);
-      //timeline para timeline
+  
+      // timeline para timeline
       if (
         r[0].type.localeCompare("none") != 0 &&
         this.type.localeCompare("none") != 0 &&
         r[0].sequence[r[2]] == 0
       ) {
+        
         this.rectX = r[1];
         this.rectY = r[0].y;
         this.color = r[0].color;
-
+  
         this.findTimeline(timelines, this.type).sequence[this.current] = 0;
-
+  
         this.type = r[0].type;
         r[0].sequence[r[2]] = 1;
         this.current = r[2];
         this.inside = true;
+        if (tutorial == 9) {
+          tutorial = 10;
+          tutorialTimer =millis();
+        }
+        if (tutorial == 10 && millis()-tutorialTimer>=2000) {
+          tutorial = 11;
+          tutorialTimer =millis();
+        }
+        drop.play();
       }
-
-      //fora para timeline
+  
+      // fora da timeline
       else if (
         r[0].type.localeCompare("none") != 0 &&
         this.type.localeCompare("none") == 0 &&
@@ -118,21 +134,41 @@ class Draggable {
         this.rectY = r[0].y;
         this.color = r[0].color;
 
+        //this.findTimeline(timelines, this.type).sequence[this.current] = 0;
+  
         this.type = r[0].type;
         r[0].sequence[r[2]] = 1;
         this.current = r[2];
         this.inside = true;
+        if (tutorial == 9) {
+          tutorial = 10;
+          tutorialTimer =millis();
+        }
+        if (tutorial == 10 && millis()-tutorialTimer>=2000) {
+          tutorial = 11;
+          tutorialTimer =millis();
+        }
+        drop.play();
       }
-
-      //bloqueio
+  
+      // celula jÃ¡ preenchida
       else if (
         r[0].type.localeCompare("none") != 0 &&
         r[0].sequence[r[2]] == 1
       ) {
-        this.rectX = this.bX;
+        this.rectX = this.bX; //pos inicial
         this.rectY = this.bY;
-        this.inside = true;
-      } else if (r[0].type == "none") {
+        if (this.findTimeline(timelines, this.type).sequence[this.current] == 1) this.inside = true;
+        else this.inside = false;
+        if (this.playPick) {
+          this.playPick = false;
+          pick.play();
+          this.lockerSize = windowHeight/100;
+        }
+      }
+  
+      // fora para fora
+      else if (r[0].type == "none") {
         let timeline = this.findTimeline(timelines, this.type);
         if (
           timeline &&
@@ -155,19 +191,17 @@ class Draggable {
           draggable.rectY = windowHeight / 2 + 3 * this.rectH;
         });
   
-        //this.rectX = startX + count * (this.rectW + spacing);
-        //this.rectY = windowHeight / 2 + 3 * this.rectH;
         this.inside = false;
         this.type = "none";
         this.color = cHighlight;
-        this.inside = false;
       }
+  
       let outsideDraggables = draggables.filter(
         (draggable) => !draggable.inside
       );
-
+  
       count = this.countD(outsideDraggables);
-   
+  
       let spacing = 30;
       const totalWidth = count * (this.rectW + spacing);
       let startX = windowWidth / 2 - totalWidth / 2 + spacing / 2;
@@ -177,11 +211,13 @@ class Draggable {
         draggable.rectY = windowHeight / 2 + 3 * this.rectH;
       });
     }
+    
     this.check = false;
     this.dragging = false;
     this.bX = this.rectX;
     this.bY = this.rectY;
   }
+  
 
   findTimeline(timelines, type) {
     for (let t of timelines) {
@@ -215,5 +251,3 @@ class Draggable {
     return false;
   }
 }
-
-

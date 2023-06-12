@@ -2,7 +2,7 @@ let frameSize; //tamanho moldura
 
 let levels = [];
 let particles = [];
-let currentLevel = -3; //nivel atual, -1 se for o menu
+let currentLevel = -5; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
 let switchDist = 0; //valor total a subtrair
@@ -22,6 +22,10 @@ let rightPressed = 0;
 
 let airTime = 0;
 
+let tutorial = 0;
+let tutorial2 = 0;
+tutorialTimer = 0;
+
 //cores
 let c = [0,0,0];
 
@@ -30,15 +34,15 @@ let c2 = [39,39,39];
 let cBackground = c1;
 let cHighlight = [180,180,180];
 
-let cBlue = [21,114,161];
-let cRed = [202,62,71];
-let cImpulse = [255,172,65];
+let cBlue = [57, 110, 160];
+let cRed = [160,62,71];
+let cImpulse = [65, 120, 74];
 //cPlayer = [118,81,141];
-let cPlayer = [210, 83, 128];
-let cCollect = [255,172,65];
+let cPlayer = [129, 103, 151];
+let cCollect = [220,172,65];
 //cCollect = cHighlight;
 //cWin = [0,165,0];
-let cWin = [118, 81, 141];
+let cWin = [0,0,0];
 let cCursor = [217,217,217];
 let cursor;
 let locker;
@@ -88,20 +92,25 @@ function setup() {
 
   cursor = loadImage('Images/cursor.png');
   locker = loadImage('Images/locker.png');
+  headphones = loadImage('Images/headphones.png');
 
   frameSize = windowWidth/15;
 
   player = new Player(windowWidth/30,windowWidth/30);
 
   //levels.push(new Level(0,"music name",8000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
-  levels.push(new Level(0,"Level 1",12000,1,windowWidth/4,windowHeight/3,windowWidth/2 + windowWidth/4.6,windowHeight/2.5));
-  levels.push(new Level(1,"Level 2",7000,1,windowWidth/4.4,windowHeight/3,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
-  levels.push(new Level(2,"Level 3",5000,1,windowWidth/4.4,windowHeight/3,windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 +windowWidth/3 -windowWidth/20 ,windowHeight/2 - windowHeight/15));
-  levels.push(new Level(3,"Level 4",8000,1,windowWidth/4.4,windowHeight/3,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
-  levels.push(new Level(4,"Level 5",8000,1,windowWidth/4.4,windowHeight/3,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
-  levels.push(new Level(5,"Level 6",8000,1,windowWidth/4.4,windowHeight/3 ,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
-  //levels.push(new Level(6,"Level 7",8000,1,windowWidth/4.4-windowWidth/15,windowHeight/3 ,windowWidth -windowWidth/15,windowHeight/1.2));
-  levels.push(new Level(6,"Level 7",8000,1,windowWidth/4.4-windowWidth/15,windowHeight/3 ,windowWidth/4.4-windowWidth/15,windowHeight/2));
+  levels.push(new Level(0,"grave",12000,1,windowWidth/4,windowHeight/2.5,windowWidth/2 + windowWidth/4.6,windowHeight/2.5));
+  levels.push(new Level(1,"largo",7000,1,windowWidth/4.4,windowHeight/2.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
+  levels.push(new Level(2,"lento",7500,1,windowWidth/4.4,windowHeight/2.5,windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 +windowWidth/3 -windowWidth/12 ,windowHeight/2 - windowHeight/15));
+  levels.push(new Level(3,"adagio",5000,1,windowWidth/4.6,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
+  levels.push(new Level(4,"andante",8000,1,windowWidth/4.6,windowHeight/2.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
+  levels.push(new Level(5,"moderato",8000,1,windowWidth/4.4,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
+  levels.push(new Level(6,"allegretto",8000,1,windowWidth/4.4-windowWidth/15-windowWidth/15,windowHeight/1.5 ,windowWidth -windowWidth/15-windowWidth/15,windowHeight/1.5));
+  levels.push(new Level(7,"allegro",6500,1,windowWidth/4.4-windowWidth/8.5,windowHeight/1.5,windowWidth/4.4-windowWidth/15-windowWidth/28,windowHeight/4));
+  levels.push(new Level(8,"vivace",5000,1,windowWidth/4.4-windowWidth/15-windowWidth/12,windowHeight/1.5 ,windowWidth-windowWidth/15-windowWidth/13,windowHeight/4));
+  levels.push(new Level(9,"presto",3000,1,windowWidth/4.4-windowWidth/15-windowWidth/15,windowHeight/1.5 ,windowWidth -windowWidth/15-windowWidth/15,windowHeight/1.5));
+
+  //levels.push(new Level(6,"Level 7",8000,1,windowWidth/4.4-windowWidth/15,windowHeight/3 ,windowWidth/4.4-windowWidth/15,windowHeight/2));
 
 
   menu = new Menu();
@@ -112,6 +121,7 @@ function setup() {
   impulse.setVolume(0.1);
   select.setVolume(0.15);
   enter.setVolume(0.2);
+  snare.setVolume(0.25);
   move.setVolume(0.2);
 
   swell.setVolume(0.2);
@@ -131,6 +141,8 @@ function draw() {
     currentLevel = -4;
   }*/
 
+  document.body.style.cursor = "none";
+
   ambient.setVolume(ambVol);
   menuMusic.setVolume(menuVol);
 
@@ -139,8 +151,24 @@ function draw() {
   background(cBackground);
 
   switchToBlack();
-  
-  if (currentLevel == -4) {
+  if (currentLevel == -5) {
+    textFont(light);
+    textSize(windowHeight / 50);
+    noStroke();
+    fill(c2);
+
+    if (millis() < 7000) {
+      image(headphones,windowWidth/2-windowHeight/10, windowHeight/2-windowHeight/10-windowHeight/15,windowHeight/5,windowHeight/5);
+      text("Please use headphones for a better experience.", windowWidth/2-textWidth("Please use headphones for a better experience.")/2, windowHeight/2+windowHeight/15);
+    }
+    if (millis() > 6500 && millis() < 6600) {
+      switchBlack = true;
+    }
+
+    if (millis() > 6600 && switchBlack == false && blackOpac >= 255) currentLevel = -3;
+  }
+
+  else if (currentLevel == -4) {
     finalTextAlpha+=2;
     fill(c2[0],c2[1],c2[2],finalTextAlpha);
     text("Thanks for playing!", windowWidth/2,windowHeight/2);
@@ -155,12 +183,12 @@ function draw() {
   }
 
   else if (currentLevel == -3) {
+    document.body.style.cursor = "";
     textFont(cufel);
     splashScreen.draw();
   }
   
   else if (currentLevel >= 0) {
-
     if (switchBlack) {
       switchToBlack();
     }
@@ -235,35 +263,83 @@ function keyPressed() {
       levels[currentLevel].number_of_deaths = 0;
       levels[currentLevel].reset();
       levels[currentLevel].activeSlot = 0;
+      if (currentLevel == 1) {
+        if (tutorial == 2) {
+          tutorial = 3;
+          tutorialTimer = millis();
+        }
+      }
+      if (currentLevel == 2) {
+        if (tutorial == 6) {
+          tutorial = 7;
+          tutorialTimer = millis();
+        }
+      }
+        if (currentLevel == 3) {
+          if (tutorial == 14) {
+            tutorial = 15;
+            tutorialTimer = millis();
+          }
+      }
+      if (currentLevel == 4) {
+        if (tutorial == 16) {
+          tutorial = 17;
+          tutorialTimer = millis();
+        }
+    }
+      
       //player.counterLand = 0;
       select.play();
       c = [0,0,0];
       switchBlack = true;
     }
   }
-  else if (currentLevel >= 0 && levels[currentLevel].win.winner == false){
+  else if (currentLevel >= 0 && levels[currentLevel].win.winner == false && switchCheck == false){
     if (key == "Escape") {
+      if (tutorial > 15) {
       select.play();
       currentLevel = -1;
       c = [0,0,0];
+      document.body.style.cursor = "";
       switchBlack = true;
+      }
     }
 
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
+      if (tutorial > 0  && tutorial != 3 && tutorial != 4 && tutorial != 8  && tutorial != 10) {
       player.drifting_right = false;
       player.drifting_left = false;
       player.move = -player.walk;
       leftPressed=1;
+      }
+      if (tutorial == 1) {
+        tutorial = 2;
+        tutorialTimer = millis();
+      }
     }
     if (key=='d' || key=="ArrowRight" && key!='a' && key!="ArrowLeft") {
+      if (tutorial > 0 && tutorial != 3 && tutorial != 4  && tutorial != 8  && tutorial != 10) {
       player.drifting_left = false;
       player.drifting_right = false;
       player.move = player.walk;
       rightPressed=1;
+      }
+      if (tutorial == 1) {
+        tutorial = 2;
+        tutorialTimer =millis();
+      }
     }
     if (key==' ' || key=='w' || key=='ArrowUp' && !player.jumping) {
+      if (tutorial != 3 && tutorial != 4 && tutorial != 8  && tutorial != 10) {
       player.jump();
       airTime = millis();
+      }
+    
+      if (tutorial == 0) {
+        tutorial = 1;
+        tutorialTimer = millis();
+      }
+
     }
     //if (key=='e') switchCheck = true;
   }
@@ -294,18 +370,37 @@ function keyReleased() {
         player.drifting_right = true;}
     }
     if (key=='e') {
+      if (tutorial > 2 && tutorial != 7 && tutorial != 9 && tutorial != 10 && tutorial != 11) {
       switchCheck = !switchCheck;
       switchSound.play();
+      }
+      if (tutorial == 3) {
+        tutorial = 4;
+        tutorialTimer =millis();
+      }
+      if (tutorial == 4 && millis()-tutorialTimer>=2000) {
+        tutorial = 5;
+        tutorialTimer =millis();
+      }
+      if (tutorial == 8) {
+        tutorial = 9;
+        tutorialTimer =millis();
+      }
+      if (tutorial == 12) {
+        tutorial = 13;
+        tutorialTimer =millis();
+      }
     }
     
   }
 }
 
 function drawCursor() {
-  if (switchDist>=windowHeight || currentLevel == -1 || currentLevel == -2 && switchBlack == false) {
-    fill(255,255,0);
+  if (switchDist>=windowHeight || currentLevel == -1 || currentLevel == -2 && switchBlack == false && blackOpac <= 0) {
+    //fill(255,255,0);
+    document.body.style.cursor = "";
     //circle(mouseX, mouseY,windowHeight/30);
-    image(cursor,mouseX, mouseY,windowHeight/30,windowHeight/30);
+    //image(cursor,mouseX, mouseY,windowHeight/30,windowHeight/30);
   }
 }
 

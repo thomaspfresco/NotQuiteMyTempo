@@ -66,6 +66,7 @@ class Win {
         stroke(cWin[0],cWin[1],cWin[2],this.alphaWin);
         strokeWeight(3);
         noFill();
+        
         if (this.winner == false) {
         push();
         translate(this.x,sin(this.counter2)*windowHeight/125+this.y+switchDist);

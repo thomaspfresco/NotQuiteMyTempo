@@ -13,7 +13,6 @@ class Player {
     drifting_left;
     drifting_right;
     decrement;
-    impulsePower = windowHeight/5;
     jumpSounds = [loadSound("Sounds/jump1.mp3"),loadSound("Sounds/jump2.mp3"),loadSound("Sounds/jump3.mp3"),loadSound("Sounds/jump4.mp3")];
     panning = 0.5;
 
@@ -33,8 +32,8 @@ class Player {
     counterLand = 0;
 
     constructor(w,h) {
-        this.x = 0;
-        this.y = 0;
+        this.x = windowWidth/4;
+        this.y = windowHeight/2.5;
         this.lastX = 0;
         this.lastY = 0;
         this.myHeight = 947;
@@ -90,7 +89,7 @@ class Player {
 
         if (millis() - this.startTimer < 500) {
             this.vel = 0;
-            //this.move = 0;
+            this.move = 0;
             this.drifting_left = false;
             this.drifting_right = false;
             if (this.rotation + 0.2 > PI) this.rotation = PI;
@@ -213,8 +212,8 @@ class Player {
         }
     }
 
-    impulse(){
-        this.vel=-this.impulsePower;
+    impulse(imp){
+        this.vel=-imp;
         impulse.play();
     }
 

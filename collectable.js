@@ -57,6 +57,10 @@ class Collectable {
                     this.sizeCollected = this.size;
                     collect.pan(map(this.x, 0+frameSize, windowWidth-frameSize, -1.0, 1.0));
                     collect.play();
+                    if (tutorial == 7) {
+                        tutorial = 8;
+                        tutorialTimer = millis();
+                      }
                 }
             }
         }

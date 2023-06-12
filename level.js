@@ -23,7 +23,7 @@ class Level {
     activeSlot; //slot atual em todas as timelines
     initX;initY; // posicao inicial do jogador no nivel
     winX;winY; //posicao da meta do nivel
-    eAlpha;
+    tutorialAlpha;
     win; //objeto win
     drag; //bloco de arrasto
     number_of_deaths; //numero de mortes no nivel
@@ -46,11 +46,11 @@ class Level {
         this.instant = 0;
         this.interClock = 0;
         this.activeSlot = 0;
-        this.eAlpha = 0;
+        this.tutorialAlpha = 0;
 
-        //this.completed = false;
+        this.completed = false;
 
-        if (this.id != 6) this.completed = true;
+        if (this.id ==0) this.completed = true;
     
         this.win = new Win(winX,winY);
         player.x = this.initX;
@@ -59,10 +59,9 @@ class Level {
             switch(id) {
                 case 0:
                     this.unlocked = true;
-                    this.eAlpha = 255;
     
                     //timelines
-                    this.timelines.push(new Timeline("blue",[0,0,0,1,1,0,0,0],[note1,note2,note3,note4]));
+                    this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
     
                     //posição relativa timelines
                     this.setPos();
@@ -70,11 +69,11 @@ class Level {
                     this.createDraggables();
     
                     //plataformas
-                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7,windowHeight/2,windowWidth/5,windowHeight/35));
-                    this.platforms.push(new Platform(windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7,windowHeight/2,windowWidth/5,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2-windowWidth/1.6/2,windowHeight/2,windowWidth/1.6,windowHeight/35));
+                    //this.platforms.push(new Platform(windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7,windowHeight/2,windowWidth/5,windowHeight/35));
     
                     //blocos
-                    this.blueBlocks.push(new BlueBlock(windowWidth/3 + windowWidth/5 - windowWidth/7  ,windowHeight/2,windowWidth/5,windowHeight/35));
+                    //this.blueBlocks.push(new BlueBlock(windowWidth/3 + windowWidth/5 - windowWidth/7  ,windowHeight/2,windowWidth/5,windowHeight/35));
                     
     
                     //Collectables
@@ -99,10 +98,38 @@ class Level {
     
                     break;    
                 case 2:
-                   this.unlocked = true;
+                       
+                this.unlocked = true;
+    
+                //timelines
+                this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
+
+                //posição relativa das timelines
+                this.setPos();
+
+                this.createDraggables();
+
+                //plataformas
+
+                this.platforms.push(new Platform(windowWidth/5.5,windowHeight/2,windowWidth/5,windowHeight/35));
+                this.platforms.push(new Platform(windowWidth-windowWidth/5.5-windowWidth/5,windowHeight/2,windowWidth/5,windowHeight/35));
+
+
+                //blocos
+                this.blueBlocks.push(new BlueBlock(windowWidth/2-windowWidth/16,windowHeight/2,windowWidth/8,windowHeight/35));
+
+                
+
+                //collectables
+                this.collectables.push(new Collectable(windowWidth/3,windowHeight/2.5));
+
+                break;
+    
+                case 3:
+                    this.unlocked = true;
     
                     //timelines
-                    this.timelines.push(new Timeline("orange",[0,0,1,1,0,0,0,0],[kick1]));
+                    this.timelines.push(new Timeline("impulse",[0,0,1,1,0,0,0,0],[kick1]));
     
                     //posição relativa timelines
                     this.setPos();
@@ -114,39 +141,10 @@ class Level {
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/3,windowHeight/35));
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/5.5));
                     
     
                     break;
-    
-                case 3:
-    
-                    this.unlocked = true;
-    
-                    //timelines
-                    this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
-    
-                    //posição relativa das timelines
-                    this.setPos();
-    
-                    this.createDraggables();
-    
-                    //plataformas
-    
-                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7,windowHeight/2,windowWidth/5,windowHeight/35));
-                    this.platforms.push(new Platform(windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/15,windowHeight/2,windowWidth/5,windowHeight/35));
-    
-    
-                    //blocos
-                    this.blueBlocks.push(new BlueBlock(windowWidth/3 + windowWidth/5 - windowWidth/15 ,windowHeight/2,windowWidth/8,windowHeight/35));
-    
-                    
-    
-                    //collectables
-                    this.collectables.push(new Collectable(windowWidth/3.2,windowHeight/2.5));
-    
-                    break;
-    
     
                 case 4:
                     
@@ -162,17 +160,16 @@ class Level {
                     this.createDraggables();
     
                     //plataformas
-                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7,windowHeight/2,windowWidth/5,windowHeight/35));
-                    this.platforms.push(new Platform(windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/15,windowHeight/2,windowWidth/5,windowHeight/35));
-    
+                    this.platforms.push(new Platform(windowWidth/5.5,windowHeight/2,windowWidth/5,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth-windowWidth/5.5-windowWidth/5,windowHeight/2,windowWidth/5,windowHeight/35));
     
                     //blocos
-                    this.damageBlocks.push(new DamageBlock(windowWidth/3-windowWidth/25,windowHeight/4+5,windowHeight/35,windowHeight/4));
-                    this.blueBlocks.push(new BlueBlock(windowWidth/3 + windowWidth/5 - windowWidth/15 ,windowHeight/2,windowWidth/8,windowHeight/35));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/5.5+windowWidth/5/2-windowHeight/35/2,windowHeight/4+5,windowHeight/35,windowHeight/4));
+                    this.blueBlocks.push(new BlueBlock(windowWidth/2-windowWidth/16,windowHeight/2,windowWidth/8,windowHeight/35));
     
     
                     //collectables
-                    this.collectables.push(new Collectable(windowWidth/2.7,windowHeight/2.5));
+                    this.collectables.push(new Collectable(windowWidth/3,windowHeight/2.5));
     
                     break;
     
@@ -182,7 +179,7 @@ class Level {
     
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
-                    this.timelines.push(new Timeline("orange",[0,0,1,0,0,0,1,0],[kick1]));
+                    this.timelines.push(new Timeline("impulse",[0,0,1,0,0,0,1,0],[kick1]));
     
                     //posição relativa das timelines
                     this.setPos();
@@ -193,12 +190,12 @@ class Level {
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7,windowHeight/2+windowHeight/4,windowWidth/5,windowHeight/35));
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 + windowWidth/5.5, windowHeight/2,windowWidth/7,windowHeight/35));
                     //blocos
-                    //orange block
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35));
-                    this.blueBlocks.push(new BlueBlock(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/6,windowHeight/35));
+                    //impulse block
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/5.5));
+                    this.blueBlocks.push(new BlueBlock(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/7,windowHeight/35));
     
                     //collectables
-                    this.collectables.push(new Collectable(windowWidth/2.7,windowHeight/1.55));
+                    this.collectables.push(new Collectable(windowWidth/3,windowHeight/1.55));
     
                     break;
     
@@ -210,7 +207,7 @@ class Level {
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
                     this.timelines.push(new Timeline("red",[0,0,1,0,0,0,1,0],[snare]));
-                    this.timelines.push(new Timeline("orange",[0,0,1,1,0,0,0,0],[kick1]));
+                    this.timelines.push(new Timeline("impulse",[0,0,1,1,0,0,0,0],[kick1]));
                     
     
                     //posição relativa das timelines
@@ -219,27 +216,150 @@ class Level {
                     this.createDraggables();
     
                     //plataformas
-                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/9,windowHeight/35));
-                    this.platforms.push(new Platform(windowWidth/2.1-windowWidth/15,windowHeight/2.4+windowHeight/4,windowHeight/8,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/9,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2.1-windowWidth/15-windowWidth/8,windowHeight/1.92,windowWidth/15,windowHeight/35));
                     //platform to the right of the blue block
-                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 + windowWidth/5.5-windowWidth/15 -windowWidth/15, windowHeight/2,windowWidth/7 -windowWidth/75,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2.2, windowHeight/3.14,windowWidth/9,windowHeight/35));
     
                     //higher platform to the right
-                    this.platforms.push(new Platform(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 + windowWidth/5.5-windowWidth/15,windowHeight/1.1,windowWidth/8,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 + windowWidth/5.5-windowWidth/15-windowWidth/12,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35));
                     
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35));
-                    this.damageBlocks.push(new DamageBlock(windowWidth/2.3-windowWidth/15,windowHeight/2.4,windowHeight/35,windowHeight/4));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1 + windowHeight/8-windowWidth/15,windowHeight/2.4+windowHeight/4,windowWidth/15,windowHeight/35));
-                    this.damageBlocks.push(new DamageBlock(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/8-windowWidth/15,windowHeight/2,windowWidth/4,windowHeight/35));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/15,windowHeight/35,windowHeight/6));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/4,windowHeight/2.8,windowHeight/35,windowHeight/4));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.92,windowWidth/15,windowHeight/35,windowHeight/6));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/2.2+windowWidth/9,windowHeight/3.14,windowWidth/5,windowHeight/35));
                     
                     //blue block below the higher platform, a little below the win level
-                    this.blueBlocks.push(new BlueBlock(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 -windowWidth/15,windowHeight/1.1,windowWidth/5.5,windowHeight/35));
+                    this.blueBlocks.push(new BlueBlock(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 -windowWidth/15-windowWidth/12,windowHeight/2+windowHeight/4,windowWidth/5.5,windowHeight/35));
                     //collectables
                     //collectible on top of the higher platform
-                    this.collectables.push(new Collectable(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 - windowWidth/15,windowHeight/2 - windowHeight/7));
+                    this.collectables.push(new Collectable(windowWidth/2.2+windowWidth/9/2, windowHeight/4));
                     break;
+                case 7:
+                    
+                    this.unlocked = true;
+    
+                    //timelines
+                    this.timelines.push(new Timeline("blue",[0,0,0,1,0,0,0,0],[note1,note2,note3,note4]));
+                    this.timelines.push(new Timeline("red",[0,1,1,0,1,0,1,0],[snare]));
+                    this.timelines.push(new Timeline("impulse",[0,0,0,0,0,0,0,0],[kick1]));
+                    
+    
+                    //posição relativa das timelines
+                    this.setPos();
+    
+                    this.createDraggables();
+    
+                    //plataformas
+                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/7,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2-windowWidth/80*2,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/1.55,windowHeight/2+windowHeight/4,windowWidth/7,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/1.55,windowHeight/3.07,windowWidth/7,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7-windowWidth/15-windowWidth/15,windowHeight/3.07,windowWidth/7,windowHeight/35));
+
+
+                    //platform to the right of the blue block
+                   // this.platforms.push(new Platform(windowWidth/2.2, windowHeight/3.2,windowWidth/9,windowHeight/35));
+    
+                    //higher platform to the right
+                    //this.platforms.push(new Platform(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 + windowWidth/5.5-windowWidth/15-windowWidth/12,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35));
+                    
+    
+                    //blocos
+                    this.damageBlocks.push(new DamageBlock(windowWidth/1.66,windowHeight/1.8,windowHeight/35,windowHeight/3.5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.55+windowWidth/7,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/4));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/1.66,windowHeight/1.8,windowHeight/35,windowHeight/3.5));
+
+                    
+                    //blue block below the higher platform, a little below the win level
+                    this.blueBlocks.push(new BlueBlock(windowWidth/3.5-windowWidth/80,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35));
+                    this.blueBlocks.push(new BlueBlock(windowWidth/2-windowWidth/80*2,windowHeight/3.07,windowWidth/10,windowHeight/35));
+                    this.blueBlocks.push(new BlueBlock(windowWidth/3.5-windowWidth/80,windowHeight/3.07,windowWidth/8,windowHeight/35));
+
+                    //collectables
+                    //collectible on top of the higher platform
+                    this.collectables.push(new Collectable(windowWidth-windowWidth/3.5, windowHeight/4));
+                    this.collectables.push(new Collectable(windowWidth/2+windowWidth/37, windowHeight/1.5));
+                    break;
+                case 8:
+                    
+                    this.unlocked = true;
+    
+                    //timelines
+                    this.timelines.push(new Timeline("blue",[0,0,0,1,0,0,0,0],[note1,note2,note3,note4]));
+                    this.timelines.push(new Timeline("red",[1,0,1,0,1,0,0,0],[snare]));
+                    this.timelines.push(new Timeline("impulse",[0,0,0,0,0,0,0,0],[kick1]));
+                    
+    
+                    //posição relativa das timelines
+                    this.setPos();
+    
+                    this.createDraggables();
+    
+                    //plataformas
+                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/6,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2.2,windowHeight/3.07,windowWidth/8,windowHeight/35));
+                    //platform to the right of the blue block
+                    //this.platforms.push(new Platform(windowWidth/2.2, windowHeight/3.2,windowWidth/9,windowHeight/35));
+    
+                    //higher platform to the right
+                    this.platforms.push(new Platform(windowWidth-windowWidth/12-windowWidth/8,windowHeight/3.07,windowWidth/8,windowHeight/35));
+                    
+    
+                    //blocos
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3.5-windowWidth/80,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/4));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/1.6,windowHeight/3.07,windowWidth/8,windowHeight/35));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.6,windowHeight/2,windowWidth/8,windowHeight/35,windowHeight/6));
+
+                    //this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.9,windowWidth/15,windowHeight/35,windowHeight/6));
+                    //this.damageBlocks.push(new DamageBlock(windowWidth/2.2+windowWidth/9,windowHeight/3.2,windowWidth/5,windowHeight/35));
+                    
+                    //blue block below the higher platform, a little below the win level
+                    this.blueBlocks.push(new BlueBlock(windowWidth/3.5-windowWidth/80,windowHeight/3.07,windowWidth/8,windowHeight/35));
+                    //collectables
+                    //collectible on top of the higher platform
+                    this.collectables.push(new Collectable(windowWidth/5.6, windowHeight/1.5));
+                    break;
+                case 9:
+                    
+                    this.unlocked = true;
+    
+                    //timelines
+                    this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
+                    this.timelines.push(new Timeline("red",[0,0,1,0,0,0,1,0],[snare]));
+                    this.timelines.push(new Timeline("impulse",[1,0,1,0,1,0,1,0 ],[kick1]));
+                    
+    
+                    //posição relativa das timelines
+                    this.setPos();
+    
+                    this.createDraggables();
+    
+                    //plataformas
+                    this.platforms.push(new Platform(windowWidth/3-windowWidth/7-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/9,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth/2.1-windowWidth/15-windowWidth/8,windowHeight/1.9,windowWidth/15,windowHeight/35));
+                    //platform to the right of the blue block
+                    this.platforms.push(new Platform(windowWidth/2.2, windowHeight/3.2,windowWidth/9,windowHeight/35));
+    
+                    //higher platform to the right
+                    this.platforms.push(new Platform(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 + windowWidth/5.5-windowWidth/15-windowWidth/12,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35));
+                    
+    
+                    //blocos
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/15,windowHeight/35,windowHeight/35));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/4,windowHeight/2.8,windowHeight/35,windowHeight/4));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.9,windowWidth/15,windowHeight/35,windowHeight/35));
+                    this.damageBlocks.push(new DamageBlock(windowWidth/2.2+windowWidth/9,windowHeight/3.2,windowWidth/5,windowHeight/35));
+                    
+                    //blue block below the higher platform, a little below the win level
+                    this.blueBlocks.push(new BlueBlock(windowWidth/2.1 + windowHeight/8 + windowWidth/12 + windowWidth/9 +  windowWidth/30 -windowWidth/15-windowWidth/12,windowHeight/2+windowHeight/4,windowWidth/5.5,windowHeight/35));
+                    //collectables
+                    //collectible on top of the higher platform
+                    this.collectables.push(new Collectable(windowWidth/2.2+windowWidth/9/2, windowHeight/4));
+                    break;
+                
                 default:
                     this.unlocked = false;
                     break;
@@ -248,12 +368,7 @@ class Level {
 
     draw() {
         this.instant = millis();
-        if (millis()-this.eTimer>=3500) {
-            if (this.eAlpha >= 0) this.eAlpha -= 5;
-        }
-     
-        fill(49,49,49,this.eAlpha);
-        
+
         this.win.draw();
 
         noStroke();
@@ -263,7 +378,7 @@ class Level {
         //desenhar timelines
         for (let t of this.timelines) {
             t.draw(this.activeSlot);
-            if (t.type == "orange" && t.sequence[this.activeSlot] == 1) {
+            if (t.type == "impulse" && t.sequence[this.activeSlot] == 1) {
                 for (let ib of this.impulseBlocks) ib.active = true;
             }
             else if (t.type == "blue" && t.sequence[this.activeSlot] == 1) {
@@ -275,7 +390,7 @@ class Level {
             else if (t.type == "red" && t.sequence[this.activeSlot] == 0) {
                 for (let db of this.damageBlocks) db.active = false;
             }
-            else if (t.type == "orange" && t.sequence[this.activeSlot]==0){
+            else if (t.type == "impulse" && t.sequence[this.activeSlot]==0){
                 for (let ib of this.impulseBlocks) ib.active = false;
             }
             else for (let bb of this.blueBlocks) bb.active = false;
@@ -326,7 +441,6 @@ class Level {
             ib.draw();
             if (ib.collide(player)) {
                 player.jumping = false;
-                player.impulse();     
             }     
         }
 
@@ -362,6 +476,12 @@ class Level {
 
         //nivel ganho
         if (this.win.winner) {
+            if (currentLevel == 1) {
+                if (tutorial == 3) {
+                  tutorial = 4;
+                  tutorialTimer = millis();
+                }
+              }
             player.move = 0;
             player.x = this.win.x-player.w/2;
             player.y = this.win.y+player.h/2;
@@ -380,7 +500,112 @@ class Level {
             }
         }
 
-        //drawFrame();
+
+        if (millis()-tutorialTimer>=2000) {
+            if (this.tutorialAlpha < 255) this.tutorialAlpha += 5;
+            if (this.tutorialAlpha >= 255) {
+
+                if (tutorial == 5 && millis()-tutorialTimer>=5000) {
+                    tutorial = 6;
+                    tutorialTimer = millis();
+                }
+
+                if (tutorial == 11 && millis()-tutorialTimer>=8000) {
+                    tutorial = 12;
+                    tutorialTimer = millis();
+                }
+                
+                if (tutorial == 13 && millis()-tutorialTimer>=6000) {
+                    tutorial = 14;
+                    tutorialTimer = millis();
+                }
+
+                if (tutorial == 17 && millis()-tutorialTimer>=6000) {
+                    tutorial = 18;
+                    tutorialTimer = millis();
+                }
+            }
+        }
+        else if (this.tutorialAlpha - 5 < 0) {
+            this.tutorialAlpha = 0;
+            tutorial2 = tutorial;
+        }
+        else this.tutorialAlpha -=5;
+
+       /* if (this.tutorialAlpha < 0) {
+            this.tutorialTimer = millis();
+            this.tutorialAlpha();
+            this.tutorialAlpha = 0;
+        } */
+    
+        textSize(windowHeight/45);
+        textAlign(CENTER,CENTER);
+        fill(c1[0],c1[1],c1[2],this.tutorialAlpha);
+        textFont(light);
+
+        switch (tutorial2) {    
+            case 0:
+                text("Press Up Key, W ou Spacebar to jump.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 1:
+                text("Use Left and Right Keys or A and D to move.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 2:
+                text("",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 3:
+                text("Press E to switch the Game View.",windowWidth/2,windowHeight-windowHeight/10);
+            break;
+            case 4:
+                text("Here you will see and change the World's Configuration. E to go back.",windowWidth/2,windowHeight-windowHeight/10);
+            break;
+            case 5:
+                text("Red things hurt you. Be careful.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 6:
+                text("",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 7:
+                text("Catch the Yellow Collectable.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 8:
+                text("Switch the Game View. (Press E)",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 9:
+                text("Use your mouse to drag the block you earned to any avaiable slot of the Blue Timeline.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 10:
+                text("You may change the position of the unlocked blocks how many times you want. try it.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 11:
+                text("If you die, the level restarts. You lose your progress here as well.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 12:
+                text("Now go back. (Press E)",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 13:
+                text("When active, Blue Blocks don´t let you fall.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 14:
+                text("",windowWidth/2,windowHeight-windowHeight/10);
+            break;
+            case 15:
+                text("Green Blocks give you an impulse.",windowWidth/2,windowHeight-windowHeight/10);
+                break;
+            case 16:
+                text("",windowWidth/2,windowHeight-windowHeight/10);
+            break;
+            case 17:
+                text("Enjoy the game. Press Esc anytime to leave.",windowWidth/2,windowHeight-windowHeight/10);
+            break;
+            case 18:
+                text("",windowWidth/2,windowHeight-windowHeight/10);
+            break;
+
+
+        }
+
+
     }
 
     addPlatform(x,y,w,h) {
