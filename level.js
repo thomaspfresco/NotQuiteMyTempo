@@ -49,8 +49,9 @@ class Level {
         this.tutorialAlpha = 0;
 
         this.completed = false;
+        //this.unlocked = true;
 
-        //if (this.id ==0) this.completed = true;
+        //if (this.id ==9) this.completed = false;
     
         this.win = new Win(winX,winY);
         player.x = this.initX;
@@ -142,7 +143,7 @@ class Level {
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/3,windowHeight/35));
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/5.5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/6.5));
                     
     
                     break;
@@ -192,7 +193,7 @@ class Level {
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 + windowWidth/5.5, windowHeight/2,windowWidth/7,windowHeight/35));
                     //blocos
                     //impulse block
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/5.5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/6.5));
                     this.blueBlocks.push(new BlueBlock(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/7,windowHeight/35));
     
                     //collectables
@@ -227,9 +228,9 @@ class Level {
                     
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/15,windowHeight/35,windowHeight/6));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/15,windowHeight/35,windowHeight/7));
                     this.damageBlocks.push(new DamageBlock(windowWidth/4,windowHeight/2.8,windowHeight/35,windowHeight/4));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.92,windowWidth/15,windowHeight/35,windowHeight/6));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.92,windowWidth/15,windowHeight/35,windowHeight/7));
                     this.damageBlocks.push(new DamageBlock(windowWidth/2.2+windowWidth/9,windowHeight/3.14,windowWidth/5,windowHeight/35));
                     
                     //blue block below the higher platform, a little below the win level
@@ -270,7 +271,7 @@ class Level {
     
                     //blocos
                     this.damageBlocks.push(new DamageBlock(windowWidth/1.66,windowHeight/1.8,windowHeight/35,windowHeight/3.5));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.55+windowWidth/7,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/4));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.55+windowWidth/7,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/5));
                     this.damageBlocks.push(new DamageBlock(windowWidth/1.66,windowHeight/1.8,windowHeight/35,windowHeight/3.5));
 
                     
@@ -310,9 +311,9 @@ class Level {
                     
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3.5-windowWidth/80,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/4));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3.5-windowWidth/80,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/5));
                     this.damageBlocks.push(new DamageBlock(windowWidth/1.6,windowHeight/3.07,windowWidth/8,windowHeight/35));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.6,windowHeight/2,windowWidth/8,windowHeight/35,windowHeight/6));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.6,windowHeight/2,windowWidth/8,windowHeight/35,windowHeight/7));
 
                     
                     //blue block below the higher platform, a little below the win level
@@ -349,19 +350,19 @@ class Level {
                     //plataforma suporte a de impulso
                     this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12,windowHeight/1.2,windowWidth/12,windowHeight/35));
                     //primeiro bloco de impulso
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12+windowWidth/12,windowHeight/1.2,windowWidth/18,windowHeight/35,windowHeight/6));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12+windowWidth/12,windowHeight/1.2,windowWidth/18,windowHeight/35,windowHeight/7));
 
                     // segundo(smaller and further away)
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/10+windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30, windowHeight /1.2, windowWidth / 18, windowHeight / 35,windowHeight/4));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/8+windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30, windowHeight /1.2, windowWidth / 18, windowHeight / 35,windowHeight/7));
                     //sugunda plataforma de suporte
-                    this.platforms.push(new Platform(-windowWidth / 18 + windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30+windowWidth / 18,windowHeight/1.2,windowWidth/10,windowHeight/35));
+                    this.platforms.push(new Platform(-windowWidth / 18 + windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30+windowWidth / 18,windowHeight/1.2,windowWidth/8,windowHeight/35));
                     
                     //red block between those 2
                     this.damageBlocks.push(new DamageBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10 - windowWidth / 16 + windowWidth / 12 + windowWidth / 18 + windowWidth / 55, windowHeight / 2.8, windowHeight / 35, windowHeight / 4));
     
                     //collectable on top of the first blue platform
                     this.collectables.push(new Collectable(windowWidth/4.4-windowWidth/20-windowWidth/21, windowHeight/1.3));
-                    this.platforms.push(new Platform(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 - windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 4.5,windowHeight/1.2,windowWidth/7,windowHeight/35));
+                    this.platforms.push(new Platform(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 - windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 12 + windowWidth / 4.5,windowHeight/1.2,windowWidth/6.5,windowHeight/35));
                     //last blue plataform
                    // this.blueBlocks.push(new BlueBlock(windowWidth / 2.1 + windowHeight / 8 + windowWidth / 12 + windowWidth / 9 -windowWidth / 3 + windowWidth / 30 + windowWidth / 5.5 - windowWidth / 15 + windowWidth / 8, windowHeight / 1.2, windowWidth / 10, windowHeight / 35));
 
@@ -497,15 +498,13 @@ class Level {
         }
 
         if (this.win.end) {
-            if (this.completed && levels[currentLevel+1].completed == false) currentLevel = -1;
-            else if (allCompleted() && this.id == levels.length - 1) {
+            this.completed = true;
+            if (allCompleted() && this.id == levels.length - 1) {
                 currentLevel = -4;
                 switchBlack = true;
             }
-            else {
-                this.completed = true;
-                currentLevel = -2;
-            }
+            else if (this.completed && levels[currentLevel+1].completed == false) currentLevel = -1;
+            else currentLevel = -2;
         }
 
 

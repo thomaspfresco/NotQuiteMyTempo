@@ -2,7 +2,7 @@ let frameSize; //tamanho moldura
 
 let levels = [];
 let particles = [];
-let currentLevel = -1; //nivel atual, -1 se for o menu
+let currentLevel = -5; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
 let switchDist = 0; //valor total a subtrair
@@ -172,6 +172,8 @@ function draw() {
   else if (currentLevel == -4) {
     finalTextAlpha+=2;
     fill(c2[0],c2[1],c2[2],finalTextAlpha);
+    textSize(windowHeight / 20);
+    textFont(cufel);
     text("Thanks for playing!", windowWidth/2,windowHeight/2);
     if (ambVol > 0) {
       if ( ambVol - 0.01 < 0) ambVol = 0;
