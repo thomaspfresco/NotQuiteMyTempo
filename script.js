@@ -24,7 +24,7 @@ let airTime = 0;
 
 let tutorial = 0;
 let tutorial2 = 0;
-tutorialTimer = 0;
+let tutorialTimer = 0;
 
 //cores
 let c = [0,0,0];
@@ -104,7 +104,7 @@ function setup() {
   levels.push(new Level(2,"lento",7500,1,windowWidth/4.4,windowHeight/2.5,windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 +windowWidth/3 -windowWidth/12 ,windowHeight/2 - windowHeight/15));
   levels.push(new Level(3,"adagio",5000,1,windowWidth/4.6,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
   levels.push(new Level(4,"andante",8000,1,windowWidth/4.6,windowHeight/2.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
-  levels.push(new Level(5,"moderato",8000,1,windowWidth/4.4,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
+  levels.push(new Level(5,"moderato",8500,1,windowWidth/4.4,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
   levels.push(new Level(6,"allegretto",8000,1,windowWidth/4.4-windowWidth/15-windowWidth/15,windowHeight/1.5 ,windowWidth -windowWidth/15-windowWidth/15,windowHeight/1.5));
   levels.push(new Level(7,"allegro",6500,1,windowWidth/4.4-windowWidth/8.5,windowHeight/1.5,windowWidth/4.4-windowWidth/15-windowWidth/28,windowHeight/4));
   levels.push(new Level(8,"vivace",5000,1,windowWidth/4.4-windowWidth/15-windowWidth/12,windowHeight/1.5 ,windowWidth-windowWidth/15-windowWidth/13,windowHeight/4));
@@ -184,7 +184,7 @@ function draw() {
   }
 
   else if (currentLevel == -3) {
-    document.body.style.cursor = "";
+    //document.body.style.cursor = "";
     textFont(cufel);
     splashScreen.draw();
   }
@@ -295,16 +295,17 @@ function keyPressed() {
       switchBlack = true;
     }
   }
-  else if (currentLevel >= 0 && levels[currentLevel].win.winner == false && switchCheck == false){
+  else if (currentLevel >= 0 && levels[currentLevel].win.winner == false){
     if (key == "Escape") {
       if (tutorial > 15) {
       select.play();
       currentLevel = -1;
       c = [0,0,0];
-      document.body.style.cursor = "";
       switchBlack = true;
       }
     }
+
+    if (switchCheck == false) {
 
     if (key=='a' || key=="ArrowLeft" && key!='d' && key!="ArrowRight") {
       if (tutorial > 0  && tutorial != 3 && tutorial != 4 && tutorial != 8  && tutorial != 10) {
@@ -342,6 +343,8 @@ function keyPressed() {
       }
 
     }
+  }
+ // else  document.body.style.cursor = "";
     //if (key=='e') switchCheck = true;
   }
 }
@@ -450,7 +453,8 @@ function clone(obj) {
 
 function switchToBlack() {
   if (switchBlack) {
-    if (blackOpac >= 255) {
+    if (blackOpac + 9 >= 255) {
+      blackOpac = 255;
       switchBlack = false;
       timerBlack = millis();
     }

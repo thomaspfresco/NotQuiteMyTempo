@@ -545,7 +545,7 @@ class Level {
 
         switch (tutorial2) {    
             case 0:
-                text("Press Up Key, W ou Spacebar to jump.",windowWidth/2,windowHeight-windowHeight/10);
+                text("Press Up Key, W or Spacebar to jump.",windowWidth/2,windowHeight-windowHeight/10);
                 break;
             case 1:
                 text("Use Left and Right Keys or A and D to move.",windowWidth/2,windowHeight-windowHeight/10);
@@ -557,7 +557,7 @@ class Level {
                 text("Press E to switch the Game View.",windowWidth/2,windowHeight-windowHeight/10);
             break;
             case 4:
-                text("Here you will see and change the World's Configuration. E to go back.",windowWidth/2,windowHeight-windowHeight/10);
+                text("Here you will see and change the World's Configuration. Press E to go back.",windowWidth/2,windowHeight-windowHeight/10);
             break;
             case 5:
                 text("Red things hurt you. Be careful.",windowWidth/2,windowHeight-windowHeight/10);
@@ -575,7 +575,7 @@ class Level {
                 text("Use your mouse to drag the block you earned to any avaiable slot of the Blue Timeline.",windowWidth/2,windowHeight-windowHeight/10);
                 break;
             case 10:
-                text("You may change the position of the unlocked blocks how many times you want. try it.",windowWidth/2,windowHeight-windowHeight/10);
+                text("You may change the position of the unlocked blocks how many times you want. Try it.",windowWidth/2,windowHeight-windowHeight/10);
                 break;
             case 11:
                 text("If you die, the level restarts. You lose your progress here as well.",windowWidth/2,windowHeight-windowHeight/10);

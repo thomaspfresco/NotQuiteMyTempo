@@ -93,6 +93,30 @@ class Menu {
                 c = [0,0,0];
                 switchBlack = true;
                 select.play();
+                if (currentLevel == 1) {
+                    if (tutorial == 2) {
+                      tutorial = 3;
+                      tutorialTimer = millis();
+                    }
+                  }
+                  if (currentLevel == 2) {
+                    if (tutorial == 6) {
+                      tutorial = 7;
+                      tutorialTimer = millis();
+                    }
+                  }
+                    if (currentLevel == 3) {
+                      if (tutorial == 14) {
+                        tutorial = 15;
+                        tutorialTimer = millis();
+                      }
+                  }
+                  if (currentLevel == 4) {
+                    if (tutorial == 16) {
+                      tutorial = 17;
+                      tutorialTimer = millis();
+                    }
+                }
             }
 
             //movimentar com o rato

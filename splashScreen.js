@@ -9,6 +9,7 @@ class splashScreen {
   id = 0;
   color = this.colors[this.id];
   playSound = true;
+  pressEnterAlpha = 0;
 
   constructor(message) {
     this.complete = false;
@@ -30,9 +31,10 @@ class splashScreen {
     textFont(light);
     textSize(windowHeight / 50);
     noStroke();
-    fill(c2);
-    text("Press enter to continue", windowWidth/2-textWidth("Press enter to continue")/2, windowHeight-windowHeight/20);
+    fill(c2[0],c2[1],c2[2],this.pressEnterAlpha);
+    text("Press Enter to continue", windowWidth/2-textWidth("Press Enter to continue")/2, windowHeight-windowHeight/20);
 
+    if (millis()>12000 && this.pressEnterAlpha < 255) this.pressEnterAlpha += 5;
 
     textFont(cufel);
     textSize(windowHeight / 10);
