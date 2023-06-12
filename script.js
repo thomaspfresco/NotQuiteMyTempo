@@ -123,6 +123,7 @@ function setup() {
   enter.setVolume(0.2);
   snare.setVolume(0.25);
   move.setVolume(0.2);
+  drop.setVolume(0.3);
 
   swell.setVolume(0.2);
   switchSound.setVolume(0.1);
