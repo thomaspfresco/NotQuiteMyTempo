@@ -80,7 +80,7 @@ class Level {
                     //this.collectables.push(new Collectable(windowWidth/3.2,windowHeight/2.5));
                     break;
                 case 1:
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("red",[1,1,0,0,1,1,0,0],[snare]));
@@ -99,7 +99,7 @@ class Level {
                     break;    
                 case 2:
                        
-                this.unlocked = true;
+                    //this.unlocked = true;
     
                 //timelines
                 this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
@@ -126,7 +126,8 @@ class Level {
                 break;
     
                 case 3:
-                    this.unlocked = true;
+                    
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("impulse",[0,0,1,1,0,0,0,0],[kick1]));
@@ -148,7 +149,7 @@ class Level {
     
                 case 4:
                     
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
@@ -175,7 +176,7 @@ class Level {
     
                 case 5: 
     
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
@@ -202,7 +203,7 @@ class Level {
     
                 case 6:
                     
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,0,0,0,0,0],[note1,note2,note3,note4]));
@@ -239,7 +240,7 @@ class Level {
                     break;
                 case 7:
                     
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,1,0,0,0,0],[note1,note2,note3,note4]));
@@ -285,7 +286,7 @@ class Level {
                     break;
                 case 8:
                     
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     this.timelines.push(new Timeline("blue",[0,0,0,1,0,0,0,0],[note1,note2,note3,note4]));
@@ -322,7 +323,7 @@ class Level {
                     break;
                 case 9:
                     
-                    this.unlocked = true;
+                    //this.unlocked = true;
     
                     //timelines
                     //plataforma
@@ -380,7 +381,7 @@ class Level {
 
         noStroke();
 
-        player.jumping = true;
+        if (currentLevel == this.id) player.jumping = true;
 
         //desenhar timelines
         for (let t of this.timelines) {

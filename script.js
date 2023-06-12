@@ -2,7 +2,7 @@ let frameSize; //tamanho moldura
 
 let levels = [];
 let particles = [];
-let currentLevel = 9; //nivel atual, -1 se for o menu
+let currentLevel = -1; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
 let switchDist = 0; //valor total a subtrair
@@ -22,8 +22,8 @@ let rightPressed = 0;
 
 let airTime = 0;
 
-let tutorial = 20;
-let tutorial2 = 20;
+let tutorial = 0;
+let tutorial2 = 0;
 let tutorialTimer = 0;
 
 //cores
@@ -101,7 +101,7 @@ function setup() {
   //levels.push(new Level(0,"music name",8000,1,windowWidth/4.4,windowHeight/3,windowWidth-windowWidth/4,windowHeight/2.2));
   levels.push(new Level(0,"grave",12000,1,windowWidth/4,windowHeight/2.5,windowWidth/2 + windowWidth/4.6,windowHeight/2.5));
   levels.push(new Level(1,"largo",7000,1,windowWidth/4.4,windowHeight/2.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
-  levels.push(new Level(2,"lento",7500,1,windowWidth/4.4,windowHeight/2.5,windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 +windowWidth/3 -windowWidth/12 ,windowHeight/2 - windowHeight/15));
+  levels.push(new Level(2,"lento",7500,1,windowWidth/4.4,windowHeight/2.5,windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 +windowWidth/3 -windowWidth/12 ,windowHeight/2.5));
   levels.push(new Level(3,"adagio",5000,1,windowWidth/4.6,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
   levels.push(new Level(4,"andante",8000,1,windowWidth/4.6,windowHeight/2.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));
   levels.push(new Level(5,"moderato",8500,1,windowWidth/4.4,windowHeight/1.5,windowWidth/3 + windowWidth/5  + windowWidth/5 - windowWidth/7 + windowWidth/6,windowHeight/2.5));

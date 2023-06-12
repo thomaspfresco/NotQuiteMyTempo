@@ -28,6 +28,8 @@ class Player {
     rotation = 0;
     start = false;
     startTimer = 0;
+    setTimerJump = false;
+    timerJump = 0;
 
     counterLand = 0;
 
@@ -64,7 +66,7 @@ class Player {
         //rect(this.x, this.y-this.h+switchDist, this.w, this.h,5);
 
         if (this.start) {
-            print("ai");
+            //print("ai");
             this.h = 0;
             this.w = 0;
             this.rotation = 0;
@@ -111,10 +113,9 @@ class Player {
         } 
 
         else {
-
         push();
         translate(this.x+this.w/2, this.y-this.h+switchDist+this.h/2);
-        rotate(this.rotation);
+        if(millis()- this.timerJump>100)rotate(this.rotation);
         translate(-this.w/2, -this.h/2);
         rect(0, 0, this.w, this.h);
         pop();
@@ -128,8 +129,9 @@ class Player {
 
         // player velocity
         if (this.jumping) {
+            if (this.setTimerJump) this.timerJump = millis();
+            this.setTimerJump = false;
             
-            if (round(this.y) != round(this.lastY)) {
             if (this.move < 0) {
                 if (this.rotation - 0.08 < -PI/2) this.rotation = -PI/2;
                 else this.rotation -= 0.08;
@@ -139,13 +141,14 @@ class Player {
                 else this.rotation += 0.08;
             }
 
-            this.land = true;
-            }
+            if(millis()- this.timerJump>100) this.land = true;
+
             //print(this.land);
             if(this.acc<windowHeight/15) this.acc+=this.inc;
             this.vel += (this.acc*this.acc)/2;
         }
         else {
+            this.setTimerJump = true;
             this.rotation = 0;
             this.acc=1.6*this.ratioHeight;
             if (this.land) {
