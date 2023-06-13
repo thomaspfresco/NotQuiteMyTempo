@@ -51,7 +51,7 @@ class Level {
         this.completed = false;
 
         //this.completed = true;
-        //this.unlocked = true;
+        this.unlocked = true;
 
         //if (this.id == 9) this.completed = false;
     
@@ -500,6 +500,8 @@ class Level {
         }
 
         if (this.win.end) {
+            player.move = 0;
+            player.vel = 0;
             if (currentLevel+1 < levels.length) {
                 if (this.completed && levels[currentLevel+1].completed == false) currentLevel = -1;
                 else if (this.completed == false) {
@@ -517,26 +519,26 @@ class Level {
         }
 
 
-        if (millis()-tutorialTimer>=2000) {
+        if (millis()-tutorialTimer>=1500) {
             if (this.tutorialAlpha < 255) this.tutorialAlpha += 5;
             if (this.tutorialAlpha >= 255) {
 
-                if (tutorial == 5 && millis()-tutorialTimer>=5000) {
+                if (tutorial == 5 && millis()-tutorialTimer>=4000) {
                     tutorial = 6;
                     tutorialTimer = millis();
                 }
 
-                if (tutorial == 11 && millis()-tutorialTimer>=8000) {
+                if (tutorial == 11 && millis()-tutorialTimer>=5000) {
                     tutorial = 12;
                     tutorialTimer = millis();
                 }
                 
-                if (tutorial == 13 && millis()-tutorialTimer>=6000) {
+                if (tutorial == 13 && millis()-tutorialTimer>=5000) {
                     tutorial = 14;
                     tutorialTimer = millis();
                 }
 
-                if (tutorial == 17 && millis()-tutorialTimer>=6000) {
+                if (tutorial == 17 && millis()-tutorialTimer>=5000) {
                     tutorial = 18;
                     tutorialTimer = millis();
                 }
@@ -588,7 +590,7 @@ class Level {
                 text("Switch the Game View. (Press E)",windowWidth/2,windowHeight-windowHeight/10);
                 break;
             case 9:
-                text("Use your mouse to drag the block you earned to any avaiable slot of the Blue Timeline.",windowWidth/2,windowHeight-windowHeight/10);
+                text("Use your mouse to drag the block you earned to any available slot of the Blue Timeline.",windowWidth/2,windowHeight-windowHeight/10);
                 break;
             case 10:
                 text("You may change the position of the unlocked blocks how many times you want. Try it.",windowWidth/2,windowHeight-windowHeight/10);

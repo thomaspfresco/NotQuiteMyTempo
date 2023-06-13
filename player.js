@@ -147,7 +147,8 @@ class Player {
 
             //print(this.land);
             if(this.acc<windowHeight/15) this.acc+=this.inc;
-            this.vel += (this.acc*this.acc)/2;
+            if ( this.vel + (this.acc*this.acc)/2 >= windowHeight/32) this.vel = windowHeight/32;
+            else this.vel += (this.acc*this.acc)/2;
         }
         else {
             this.setTimerJump = true;
