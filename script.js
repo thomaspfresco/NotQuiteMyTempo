@@ -2,7 +2,7 @@ let frameSize; //tamanho moldura
 
 let levels = [];
 let particles = [];
-let currentLevel = -1; //nivel atual, -1 se for o menu
+let currentLevel = -5; //nivel atual, -1 se for o menu
 
 let switchCheck = false; //verifica se as vistas estao trocadas
 let switchDist = 0; //valor total a subtrair
@@ -22,8 +22,8 @@ let rightPressed = 0;
 
 let airTime = 0;
 
-let tutorial = 20;
-let tutorial2 = 20;
+let tutorial = 0;
+let tutorial2 = 0;
 let tutorialTimer = 0;
 
 //cores

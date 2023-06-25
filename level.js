@@ -51,7 +51,7 @@ class Level {
         this.completed = false;
 
         //this.completed = true;
-        this.unlocked = true;
+        this.unlocked = false;
 
         //if (this.id == 9) this.completed = false;
     
