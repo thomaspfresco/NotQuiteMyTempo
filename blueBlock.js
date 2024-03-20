@@ -36,7 +36,6 @@ class BlueBlock {
 
     //console.log("p.y",p.y );
     if (((p.x >this.x && p.x < this.x +this.w ) || (p.x+p.w < this.x+this.w && p.x+p.w > this.x )) && p.y > this.y && p.y < this.y + this.h && this.active) {
-        
         return true;
       }
     else {

@@ -6,7 +6,7 @@ class Draggable {
   inside;
   playPick = true;
   locked;
-  lockerSize = 0;
+  lockerOffset = 1;
 
   constructor(rectX, rectY, current, color, type, inside, locked) {
     this.rectW = windowWidth / 10;
@@ -42,8 +42,8 @@ class Draggable {
 
   draw(draggables) {
 
-    if (this.lockerSize-0.5 < 0) this.lockerSize = 0;
-    else this.lockerSize -= 0.5;
+    if (this.lockerOffset+0.01*player.ratioHeight > 1) this.lockerOffset = 1;
+    else this.lockerOffset += 0.01*player.ratioHeight;
 
     strokeWeight(2.5);
     fill(this.color);
@@ -58,7 +58,7 @@ class Draggable {
       if (this.playPick) {
         this.playPick = false;
         pick.play();
-        this.lockerSize = windowHeight/100;
+        this.lockerOffset = 0.7;
       }
     }
     else if (
@@ -76,7 +76,7 @@ class Draggable {
   
     if (this.locked) {
       imageMode(CENTER);
-      image(locker,this.rectX+this.rectW/2,this.rectY-windowHeight+switchDist+this.rectH/2,locker.width*15/windowHeight+this.lockerSize,locker.height*15/windowHeight+this.lockerSize);
+      image(locker,this.rectX+this.rectW/2,this.rectY-windowHeight+switchDist+this.rectH/2,locker.width/(60*this.lockerOffset)*player.ratioHeight,locker.height/(60*this.lockerOffset)*player.ratioHeight);
     }
   }
 
@@ -163,7 +163,7 @@ class Draggable {
         if (this.playPick) {
           this.playPick = false;
           pick.play();
-          this.lockerSize = windowHeight/100;
+          this.lockerOffset = 0.7
         }
       }
   
@@ -243,7 +243,7 @@ class Draggable {
   }
 
   pop(activeSlot) {
-    if (activeSlot == this.current) this.lockerSize = windowHeight/100;
+    if (activeSlot == this.current) this.lockerOffset = 0.7;
   }
 
   checkDrag(draggables) {

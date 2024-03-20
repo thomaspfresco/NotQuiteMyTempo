@@ -154,7 +154,7 @@ class Menu {
         //esquerda
         if (this.upDown == -1) {
             for (let i = 0; i < levels.length; i++) {
-                if (levels[i].menuX+this.velocity<this.auxLevels[i].menuX+this.inc) levels[i].menuX+=this.velocity;            
+                if (levels[i].menuX+this.velocity*player.ratioHeight<this.auxLevels[i].menuX+this.inc) levels[i].menuX+=this.velocity*player.ratioHeight;            
                 else {
                     levels[i].menuX+=this.auxLevels[i].menuX+this.inc-levels[i].menuX;
                     this.upDown = 0;
@@ -165,7 +165,7 @@ class Menu {
         //direita
         else if (this.upDown == 1) {
             for (let i = 0; i < levels.length; i++) {
-                if (levels[i].menuX-this.velocity>this.auxLevels[i].menuX-this.inc) levels[i].menuX-=this.velocity;            
+                if (levels[i].menuX-this.velocity*player.ratioHeight>this.auxLevels[i].menuX-this.inc) levels[i].menuX-=this.velocity*player.ratioHeight;            
                 else {
                     levels[i].menuX-=levels[i].menuX-this.auxLevels[i].menuX+this.inc;
                     this.upDown = 0;
@@ -174,8 +174,8 @@ class Menu {
         }
 
         for (let i = 0; i < levels.length; i++) {
-        if (i == this.selected && levels[i].sizeMenu<this.sizeMax) levels[i].sizeMenu+=20; 
-        else if (i != this.selected && levels[i].sizeMenu>this.sizeMin) levels[i].sizeMenu-=20; 
+        if (i == this.selected && levels[i].sizeMenu<this.sizeMax) levels[i].sizeMenu+=20*player.ratioHeight/2; 
+        else if (i != this.selected && levels[i].sizeMenu>this.sizeMin) levels[i].sizeMenu-=20*player.ratioHeight/2; 
         }
 
     }

@@ -21,7 +21,7 @@ class Player {
     ratioHeight;
     ratioWidth;
     acc = 1;
-    inc = 0.07;
+    accInc = 1.5;
     distToDeath = 2*windowHeight;
     dead = false;
     land = false;
@@ -38,8 +38,8 @@ class Player {
         this.y = windowHeight/2.5;
         this.lastX = 0;
         this.lastY = 0;
-        this.myHeight = 947;
-        this.myWidth = 1920;
+        this.myHeight = 900;
+        this.myWidth = 1440;
         this.ratioHeight = windowHeight/this.myHeight;
         this.ratioWidth = windowWidth/this.myWidth;
         this.refW = w;
@@ -49,11 +49,12 @@ class Player {
         this.vel = 0;
         this.up = 90;
         this.move = 0;
-        this.walk = 6;
+        this.walk = windowWidth/220;
         this.jumping = true;
         this.drifting_left = false;
         this.drifting_right = false;
-        this.decrement = this.walk/15;
+        this.decrement = this.walk/18;
+        this.acc = this.accInc * this.ratioHeight;
     }
 
     draw() {
@@ -83,9 +84,6 @@ class Player {
             }else if(this.ratioWidth < 1){
                 this.ratioWidth = this.ratioWidth +this.ratioWidth/2;
             }
-    
-            this.up = this.up*this.ratioHeight;
-            this.walk = this.walk*this.ratioWidth;
 
         }
 
@@ -96,13 +94,13 @@ class Player {
             this.drifting_right = false;
             if (this.rotation + 0.2 > PI) this.rotation = PI;
             else this.rotation += 0.2;
-            if (this.h + 5 > this.refH) {
+            if (this.h + 5*player.ratioHeight > this.refH) {
                 this.w = this.refW;
                 this.h = this.refH;
             }
             else {
-                this.w += 5;
-                this.h += 5;
+                this.w += 5*player.ratioHeight;
+                this.h += 5*player.ratioHeight;
             }
             push();
             translate(this.x+this.w/2, this.y-this.h+switchDist+this.h/2);
@@ -123,7 +121,7 @@ class Player {
         pop();
         
          // player movement
-        this.vel *= 0.8*this.ratioHeight;
+        //this.vel *= 0.8*this.ratioHeight;
          this.y += this.vel;
          this.x += this.move;
 
@@ -143,22 +141,22 @@ class Player {
                 else this.rotation += 0.08;
             }
 
-            if(millis()- this.timerJump>100) this.land = true;
+            if(millis()- this.timerJump>250) this.land = true;
 
-            //print(this.land);
-            if(this.acc<windowHeight/15) this.acc+=this.inc;
-            if ( this.vel + (this.acc*this.acc)/2 >= windowHeight/32) this.vel = windowHeight/32;
-            else this.vel += (this.acc*this.acc)/2;
+    
+            if (this.vel + (this.acc * this.acc)/2 < windowHeight/50) this.vel += (this.acc * this.acc)/2;
+            else this.vel = windowHeight/50;
         }
         else {
+
             this.setTimerJump = true;
             this.rotation = 0;
-            this.acc=1.6*this.ratioHeight;
             if (this.land) {
                 makeParticles(12, this.x+this.w/2, this.y-this.h/2, cPlayer, false);
                 this.land = false;
                 landSound.pan(this.panning);
                 landSound.play();
+                if (this.vel >= -16*this.ratioHeight) this.vel = 0;
             }
         }
 
@@ -209,7 +207,8 @@ class Player {
 
     jump(){
         if (!this.jumping) {
-        this.vel -= windowHeight/16;
+        this.vel = -16*this.ratioHeight;
+        //console.log(this.ratioHeight);
         let aux = int(random(0,4));
         this.jumpSounds[aux].pan(this.panning);
         this.jumpSounds[aux].setVolume(0.3);
@@ -219,7 +218,7 @@ class Player {
     }
 
     impulse(imp){
-        this.vel=-imp;
+        this.vel = -imp;
         impulse.play();
     }
 
@@ -228,7 +227,6 @@ class Player {
         this.x = initX;
         this.y = initY;
         this.dead = false;
-        this.acc=1.6*this.ratioHeight;
         this.vel = 0;
         this.rotation = 0;
         this.h = 0;
@@ -245,7 +243,7 @@ class Player {
         if(this.dead == false) {
             death.pan(this.panning);
             death.play();
-            makeParticles(15, this.deathX+this.w/2, this.deathY+this.h*3.5, cPlayer, true);
+            makeParticles(15, this.deathX+this.w/2, this.deathY+this.h*2, cPlayer, true);
         }
         this.dead = true;
     }

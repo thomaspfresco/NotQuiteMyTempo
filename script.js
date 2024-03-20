@@ -300,12 +300,10 @@ function keyPressed() {
   }
   else if (currentLevel >= 0 && levels[currentLevel].win.winner == false){
     if (key == "Enter") {
-      if (tutorial > 15) {
       select.play();
       currentLevel = -1;
       c = [0,0,0];
       switchBlack = true;
-      }
     }
 
     if (switchCheck == false) {
@@ -413,13 +411,13 @@ function drawCursor() {
 
 function switchView() {
   if (switchCheck && switchDist<windowHeight){
-    if(switchDist+switchInc > windowHeight)switchDist=windowHeight;
-      else switchDist+=switchInc;
+    if(switchDist+switchInc*player.ratioHeight > windowHeight)switchDist=windowHeight;
+      else switchDist+=switchInc*player.ratioHeight;
     }
  
   else if (!switchCheck && switchDist>0){
-    if(switchDist-switchInc < 0) switchDist = 0;
-    else switchDist-=switchInc;
+    if(switchDist-switchInc*player.ratioHeight < 0) switchDist = 0;
+    else switchDist-=switchInc*player.ratioHeight;
   
 }
 }

@@ -145,7 +145,7 @@ class Level {
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/3,windowHeight/35));
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/6.5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,26*player.ratioHeight));
                     
     
                     break;
@@ -195,7 +195,7 @@ class Level {
                     this.platforms.push(new Platform(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9 + windowWidth/5.5, windowHeight/2,windowWidth/7,windowHeight/35));
                     //blocos
                     //impulse block
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,windowHeight/6.5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/5,windowHeight/2+windowHeight/4,windowWidth/10,windowHeight/35,28*player.ratioHeight));
                     this.blueBlocks.push(new BlueBlock(windowWidth/3-windowWidth/7 + windowWidth/5 + windowWidth/9, windowHeight/2,windowWidth/7,windowHeight/35));
     
                     //collectables
@@ -230,9 +230,9 @@ class Level {
                     
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/15,windowHeight/35,windowHeight/7));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3-windowWidth/7 + windowWidth/9-windowWidth/15-windowWidth/15,windowHeight/2+windowHeight/4,windowWidth/15,windowHeight/35,28*player.ratioHeight));
                     this.damageBlocks.push(new DamageBlock(windowWidth/4,windowHeight/2.8,windowHeight/35,windowHeight/4));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.92,windowWidth/15,windowHeight/35,windowHeight/7));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/2.1-windowWidth/15-windowWidth/8+windowWidth/15,windowHeight/1.92,windowWidth/15,windowHeight/35,28*player.ratioHeight));
                     this.damageBlocks.push(new DamageBlock(windowWidth/2.2+windowWidth/9,windowHeight/3.14,windowWidth/5,windowHeight/35));
                     
                     //blue block below the higher platform, a little below the win level
@@ -273,7 +273,7 @@ class Level {
     
                     //blocos
                     this.damageBlocks.push(new DamageBlock(windowWidth/1.66,windowHeight/1.8,windowHeight/35,windowHeight/3.5));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.55+windowWidth/7,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.55+windowWidth/7,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,36*player.ratioHeight));
                     this.damageBlocks.push(new DamageBlock(windowWidth/1.66,windowHeight/1.8,windowHeight/35,windowHeight/3.5));
 
                     
@@ -313,9 +313,9 @@ class Level {
                     
     
                     //blocos
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3.5-windowWidth/80,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,windowHeight/5));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/3.5-windowWidth/80,windowHeight/2+windowHeight/4,windowWidth/8,windowHeight/35,34*player.ratioHeight));
                     this.damageBlocks.push(new DamageBlock(windowWidth/1.6,windowHeight/3.07,windowWidth/8,windowHeight/35));
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.6,windowHeight/2,windowWidth/8,windowHeight/35,windowHeight/7));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/1.6,windowHeight/2,windowWidth/8,windowHeight/35,24*player.ratioHeight));
 
                     
                     //blue block below the higher platform, a little below the win level
@@ -352,10 +352,10 @@ class Level {
                     //plataforma suporte a de impulso
                     this.platforms.push(new Platform(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12,windowHeight/1.2,windowWidth/12,windowHeight/35));
                     //primeiro bloco de impulso
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12+windowWidth/12,windowHeight/1.2,windowWidth/18,windowHeight/35,windowHeight/7));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth / 3 - windowWidth / 7 - windowWidth / 8 + windowWidth / 6 + windowWidth / 10-windowWidth/12+windowWidth/12,windowHeight/1.2,windowWidth/18,windowHeight/35,25*player.ratioHeight));
 
                     // segundo(smaller and further away)
-                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/8+windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30, windowHeight /1.2, windowWidth / 18, windowHeight / 35,windowHeight/7));
+                    this.impulseBlocks.push(new ImpulseBlock(windowWidth/8+windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30, windowHeight /1.2, windowWidth / 18, windowHeight / 35,25*player.ratioHeight));
                     //sugunda plataforma de suporte
                     this.platforms.push(new Platform(-windowWidth / 18 + windowWidth / 3 - windowWidth / 7 - windowWidth /8 + windowWidth / 6 + windowWidth / 9 + windowWidth / 6-windowWidth / 18 + windowWidth / 30+windowWidth / 18,windowHeight/1.2,windowWidth/8,windowHeight/35));
                     
