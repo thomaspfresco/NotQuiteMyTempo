@@ -21,7 +21,7 @@ class Player {
     ratioHeight;
     ratioWidth;
     acc = 1;
-    accInc = 1.5;
+    accInc = 1.6;
     distToDeath = 2*windowHeight;
     dead = false;
     land = false;
